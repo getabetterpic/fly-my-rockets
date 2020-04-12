@@ -1,8 +1,8 @@
 {
   "extends": "../../tslint.json",
   "rules": {
-    "directive-selector": [true, "attribute", "flyMyRockets", "camelCase"],
-    "component-selector": [true, "element", "fly-my-rockets", "kebab-case"]
+    "directive-selector": [true, "attribute", "fmr", "camelCase"],
+    "component-selector": [true, "element", "fmr", "kebab-case"]
   },
   "linterOptions": {
     "exclude": ["!**/*"]

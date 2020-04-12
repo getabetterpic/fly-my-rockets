@@ -10,7 +10,7 @@
       },
       "root": "apps/fly-my-rockets",
       "sourceRoot": "apps/fly-my-rockets/src",
-      "prefix": "fly-my-rockets",
+      "prefix": "fmr",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
