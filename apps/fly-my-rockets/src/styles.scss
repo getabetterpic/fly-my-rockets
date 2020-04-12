@@ -9,17 +9,52 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
+$rockets-blue: (
+  50 : #e3eef7,
+  100 : #bad4ec,
+  200 : #8cb7df,
+  300 : #5d9ad2,
+  400 : #3b85c9,
+  500 : #186fbf,
+  600 : #1567b9,
+  700 : #115cb1,
+  800 : #0e52a9,
+  900 : #08409b,
+  A100 : #c8daff,
+  A200 : #95b7ff,
+  A400 : #6295ff,
+  A700 : #4884ff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$fly-my-rockets-primary: mat-palette($mat-indigo);
+$fly-my-rockets-primary: mat-palette($rockets-blue);
 $fly-my-rockets-accent: mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $fly-my-rockets-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$fly-my-rockets-theme: mat-light-theme($fly-my-rockets-primary, $fly-my-rockets-accent, $fly-my-rockets-warn);
+$fly-my-rockets-theme: mat-dark-theme($fly-my-rockets-primary, $fly-my-rockets-accent, $fly-my-rockets-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
