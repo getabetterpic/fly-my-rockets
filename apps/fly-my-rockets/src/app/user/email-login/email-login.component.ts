@@ -19,6 +19,9 @@ export class EmailLoginComponent implements OnInit {
 
   serverMessage: string;
 
+  passwordFieldType: 'password' | 'text' = 'password';
+  passwordConfirmFieldType: 'password' | 'text' = 'password';
+
   constructor(private afAuth: AngularFireAuth, private fb: FormBuilder) {}
 
   ngOnInit() {
@@ -89,5 +92,21 @@ export class EmailLoginComponent implements OnInit {
     }
 
     this.loading = false;
+  }
+
+  togglePassword(): void {
+    if (this.passwordFieldType === 'password') {
+      this.passwordFieldType = 'text';
+    } else {
+      this.passwordFieldType = 'password';
+    }
+  }
+
+  togglePasswordConfirm(): void {
+    if (this.passwordConfirmFieldType === 'password') {
+      this.passwordConfirmFieldType = 'text';
+    } else {
+      this.passwordConfirmFieldType = 'password';
+    }
   }
 }

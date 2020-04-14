@@ -38,10 +38,19 @@
       <input
         matInput
         formControlName="password"
-        type="password"
+        [type]="passwordFieldType"
         placeholder="Password"
         autocomplete="off"
       />
+      <button type="button"
+              mat-button
+              matSuffix
+              mat-icon-button
+              aria-label="show password"
+              (click)="togglePassword()"
+      >
+        <mat-icon>visibility</mat-icon>
+      </button>
 
       <mat-error *ngIf="password.invalid && password.dirty">
         Password must be at least 6 characters long
@@ -55,10 +64,19 @@
       <input
         matInput
         formControlName="passwordConfirm"
-        type="password"
+        [type]="passwordConfirmFieldType"
         placeholder="Confirm password"
         autocomplete="off"
       />
+      <button type="button"
+              mat-button
+              matSuffix
+              mat-icon-button
+              aria-label="show password confirm"
+              (click)="togglePasswordConfirm()"
+      >
+        <mat-icon>visibility</mat-icon>
+      </button>
 
       <mat-error *ngIf="passwordConfirm.dirty && !passwordDoesMatch">
         Password does not match
