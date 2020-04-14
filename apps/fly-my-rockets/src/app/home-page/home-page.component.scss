@@ -1,0 +1,10 @@
+.card--homepage {
+  width: 280px;
+  margin: 24px auto;
+}
+
+@media screen and (min-width: 768px) {
+  .card--homepage {
+    width: 500px;
+  }
+}
