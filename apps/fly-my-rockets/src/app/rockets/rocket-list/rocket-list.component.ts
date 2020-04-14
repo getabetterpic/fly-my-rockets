@@ -10,9 +10,7 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./rocket-list.component.scss']
 })
 export class RocketListComponent {
-  rockets$ = this.rocketService.getUserRockets().pipe(
-    tap(rockets => console.log({ rockets }))
-  );
+  rockets$ = this.rocketService.getUserRockets();
 
   constructor(
     private rocketService: RocketService,

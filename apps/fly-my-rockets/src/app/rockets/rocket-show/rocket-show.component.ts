@@ -56,7 +56,6 @@ export class RocketShowComponent implements OnInit {
   }
 
   removeFlight(flight: Flight): void {
-    console.log({ flight })
     this.rocketService.removeFlight(this.rocketId, flight);
   }
 
