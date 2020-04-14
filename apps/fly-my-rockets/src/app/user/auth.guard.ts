@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { SnackService } from '../services/snack.service';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +14,12 @@ export class AuthGuard implements CanActivate {
     private snack: SnackService
   ) {}
 
-  async canActivate(
+  canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Promise<boolean> {
-
-    const user = await this.afAuth.currentUser;
-    const isLoggedIn = !!user;
-    if (!isLoggedIn) {
-      this.snack.authError();
-    }
-    return isLoggedIn;
+  ): Observable<boolean> {
+    return this.afAuth.user.pipe(
+      map(user => !!user)
+    );
   }
 }

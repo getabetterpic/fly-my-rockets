@@ -26,6 +26,11 @@
   position: sticky;
   top: 0;
   z-index: 1;
+
+  .toolbar-container {
+    max-width: 920px;
+    width: 100%;
+  }
 }
 
 .fill-space {

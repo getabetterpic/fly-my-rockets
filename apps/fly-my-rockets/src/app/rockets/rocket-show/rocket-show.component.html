@@ -1,0 +1,19 @@
+<div *ngIf="rocket$ | async as rocket">
+  <h1>{{rocket.name}}</h1>
+
+  <h2>Flights</h2>
+  <mat-list>
+    <mat-list-item *ngFor="let flight of flights$ | async">
+      <img matListAvatar src="https://placekitten.com/50/50" alt="placekitten.com">
+      <h3 matLine>{{flightDate(flight) | date}}</h3>
+      <span matLine>{{flight.motor}} | {{flight.altitude | number}}</span>
+      <button mat-icon-button (click)="removeFlight(flight)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</div>
+<button mat-fab color="primary" class="fab-button"
+        (click)="openFlightDialog()">
+  <mat-icon>add</mat-icon>
+</button>

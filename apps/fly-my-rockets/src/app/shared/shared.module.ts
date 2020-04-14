@@ -13,6 +13,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core'
 import { ShellComponent } from './shell/shell.component';
 
 const components = [ShellComponent];
@@ -31,7 +33,9 @@ const modules = [
   MatFormFieldModule,
   MatInputModule,
   MatSnackBarModule,
-  RouterModule
+  RouterModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
 ];
 
 @NgModule({
