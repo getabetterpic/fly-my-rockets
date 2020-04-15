@@ -1,22 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { RocketListComponent } from './rocket-list.component';
+import { of } from 'rxjs';
 
 describe('RocketListComponent', () => {
   let component: RocketListComponent;
-  let fixture: ComponentFixture<RocketListComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RocketListComponent ]
-    })
-    .compileComponents();
-  }));
+  let rocketService;
+  let matDialog;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RocketListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    rocketService = { getUserRockets: jest.fn().mockReturnValue(of({})) };
+    matDialog = {};
+    component = new RocketListComponent(
+      rocketService,
+      matDialog
+    );
   });
 
   it('should create', () => {

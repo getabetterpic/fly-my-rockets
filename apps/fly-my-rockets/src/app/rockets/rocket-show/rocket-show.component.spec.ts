@@ -1,25 +1,27 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { RocketShowComponent } from './rocket-show.component';
+import { Subject } from 'rxjs';
 
 describe('RocketShowComponent', () => {
   let component: RocketShowComponent;
-  let fixture: ComponentFixture<RocketShowComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RocketShowComponent ]
-    })
-    .compileComponents();
-  }));
+  let rocketService;
+  let route;
+  let dialog;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RocketShowComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    rocketService = { removeFlight: jest.fn() };
+    route = { paramMap: new Subject() };
+    dialog = {};
+    component = new RocketShowComponent(
+      rocketService,
+      route,
+      dialog
+    );
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('removeFlight', () => {
+    it('calls rocketService.removeFlight', () => {
+      component.removeFlight({});
+      expect(rocketService.removeFlight).toHaveBeenCalled();
+    });
   });
 });

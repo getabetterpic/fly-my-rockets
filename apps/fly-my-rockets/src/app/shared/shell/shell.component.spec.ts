@@ -1,25 +1,28 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ShellComponent } from './shell.component';
+import { Subject } from 'rxjs';
 
 describe('ShellComponent', () => {
   let component: ShellComponent;
-  let fixture: ComponentFixture<ShellComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ShellComponent ]
-    })
-    .compileComponents();
-  }));
+  let afAuth;
+  let breakpointObserver;
+  let observeSubject;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShellComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    afAuth = {};
+    observeSubject = new Subject();
+    breakpointObserver = {
+      observe: jest.fn().mockReturnValue(observeSubject)
+    };
+    component = new ShellComponent(afAuth, breakpointObserver);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('isHandset$', () => {
+    it('checks to see if device is handset', (done) => {
+      component.isHandset$.subscribe((result) => {
+        expect(result).toBe(true);
+        done();
+      });
+      observeSubject.next({ matches: true });
+    });
   });
 });

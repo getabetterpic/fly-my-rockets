@@ -1,16 +1,33 @@
-import { TestBed } from '@angular/core/testing';
-
 import { RocketService } from './rocket.service';
+import { fakeAsync, tick } from '@angular/core/testing';
+import { of } from 'rxjs';
 
 describe('RocketService', () => {
   let service: RocketService;
+  let afAuth;
+  let db;
+  let add;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(RocketService);
+    afAuth = {
+      currentUser: Promise.resolve({ uid: '1234' })
+    };
+    add = jest.fn().mockImplementation(() => of({}));
+    db = {
+      collection: jest.fn().mockImplementation(() => ({ add }))
+    };
+    service = new RocketService(afAuth, db);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  describe('createRocket', () => {
+    it('adds a rocket to the collection', fakeAsync(() => {
+      service.createRocket({ name: 'Iris' }).subscribe();
+      tick();
+      expect(db.collection).toHaveBeenCalledWith('rockets');
+      expect(add).toHaveBeenCalledWith({
+        name: 'Iris',
+        uid: '1234'
+      });
+    }));
   });
 });

@@ -1,25 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { RocketDialogComponent } from './rocket-dialog.component';
 
 describe('RocketDialogComponent', () => {
   let component: RocketDialogComponent;
-  let fixture: ComponentFixture<RocketDialogComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RocketDialogComponent ]
-    })
-    .compileComponents();
-  }));
+  let dialogRef;
+  let data;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RocketDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    dialogRef = { close: jest.fn() };
+    data = {};
+    component = new RocketDialogComponent(dialogRef, data);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('onNoClick', () => {
+    it('closes the dialog', () => {
+      component.onNoClick();
+      expect(dialogRef.close).toHaveBeenCalled();
+    });
   });
 });

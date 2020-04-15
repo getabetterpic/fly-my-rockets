@@ -1,25 +1,55 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { EmailLoginComponent } from './email-login.component';
+import { FormBuilder } from '@angular/forms';
 
 describe('EmailLoginComponent', () => {
   let component: EmailLoginComponent;
-  let fixture: ComponentFixture<EmailLoginComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EmailLoginComponent ]
-    })
-    .compileComponents();
-  }));
+  let afAuth;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EmailLoginComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    afAuth = {
+      signInWithEmailAndPassword: jest.fn(),
+      createUserWithEmailAndPassword: jest.fn(),
+      sendPasswordResetEmail: jest.fn()
+    }
+    component = new EmailLoginComponent(
+      afAuth,
+      new FormBuilder()
+    );
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('ngOnInit', () => {
+    it('creates the form', () => {
+      component.ngOnInit();
+      expect(component.form).not.toBeUndefined();
+    });
+  });
+
+  describe('changeType', () => {
+    it('changes the type', () => {
+      expect(component.type).toEqual('signup');
+      component.changeType('login');
+      expect(component.type).toEqual('login');
+    });
+  });
+
+  describe('isLogin', () => {
+    it('returns true if type is login', () => {
+      component.type = 'login';
+      expect(component.isLogin).toBe(true);
+    });
+  });
+
+  describe('isSignup', () => {
+    it('returns true if type is signup', () => {
+      component.type = 'signup';
+      expect(component.isSignup).toBe(true);
+    });
+  });
+
+  describe('isPasswordReset', () => {
+    it('returns true if type is reset', () => {
+      component.type = 'reset';
+      expect(component.isPasswordReset).toBe(true);
+    });
   });
 });
