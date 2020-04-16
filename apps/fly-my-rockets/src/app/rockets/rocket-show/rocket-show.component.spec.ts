@@ -1,5 +1,5 @@
 import { RocketShowComponent } from './rocket-show.component';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 describe('RocketShowComponent', () => {
   let component: RocketShowComponent;
@@ -8,7 +8,7 @@ describe('RocketShowComponent', () => {
   let dialog;
 
   beforeEach(() => {
-    rocketService = { removeFlight: jest.fn() };
+    rocketService = { removeFlight: jest.fn().mockReturnValue(of({})) };
     route = { paramMap: new Subject() };
     dialog = {};
     component = new RocketShowComponent(

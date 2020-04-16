@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RocketService } from '../rocket.service';
 import { ActivatedRoute } from '@angular/router';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { FlightDialogComponent } from '../dialogs/flight-dialog.component';
 import { Flight, Rocket } from '../rocket.model';
@@ -23,14 +23,7 @@ export class RocketShowComponent implements OnInit {
     tap(rocket => this.rocket = rocket)
   );
   flights$ = this.rocket$.pipe(
-    switchMap(rocket => {
-      const flightIds = rocket.flights;
-      if (flightIds?.length > 0) {
-        return this.rocketService.getFlights(flightIds);
-      } else {
-        return [];
-      }
-    })
+    map(rocket => rocket.flights)
   );
 
   constructor(
@@ -56,7 +49,10 @@ export class RocketShowComponent implements OnInit {
   }
 
   removeFlight(flight: Flight): void {
-    this.rocketService.removeFlight(this.rocketId, flight);
+    this.rocketService.removeFlight(this.rocketId, flight)
+      .subscribe(() => {}, (err) => {
+        console.error({ err });
+      });
   }
 
   flightDate(flight) {

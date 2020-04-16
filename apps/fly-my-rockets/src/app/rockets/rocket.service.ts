@@ -38,8 +38,17 @@ export class RocketService {
   }
 
   removeFlight(rocketId: string, flight: Flight) {
+    if (typeof flight === 'string') {
+      return from(this.db.collection('rockets').doc(rocketId).update({
+        flights: FieldValue.arrayRemove(flight)
+      }));
+    } else if (flight.id) {
+      return from(this.db.collection('rockets').doc(rocketId).update({
+        flights: FieldValue.arrayRemove(`/flights/${flight.id}`)
+      }));
+    }
     return from(this.db.collection('rockets').doc(rocketId).update({
-      flights: FieldValue.arrayRemove(`/flights/${flight.id}`)
+      flights: FieldValue.arrayRemove(flight)
     }))
   }
 
