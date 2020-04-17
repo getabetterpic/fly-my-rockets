@@ -22,8 +22,9 @@
             "tsConfig": "apps/fly-my-rockets/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "apps/fly-my-rockets/src/favicon.ico",
-              "apps/fly-my-rockets/src/assets"
+              "apps/fly-my-rockets/src/favicon-196.png",
+              "apps/fly-my-rockets/src/assets",
+              "apps/fly-my-rockets/src/manifest.webmanifest"
             ],
             "styles": ["apps/fly-my-rockets/src/styles.scss"],
             "scripts": []
@@ -55,7 +56,9 @@
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
                 }
-              ]
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "apps/fly-my-rockets/ngsw-config.json"
             }
           }
         },
