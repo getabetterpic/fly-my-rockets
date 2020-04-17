@@ -22,7 +22,7 @@
             "tsConfig": "apps/fly-my-rockets/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "apps/fly-my-rockets/src/favicon.ico",
+              "apps/fly-my-rockets/src/favicon-196.png",
               "apps/fly-my-rockets/src/assets",
               "apps/fly-my-rockets/src/manifest.webmanifest"
             ],
