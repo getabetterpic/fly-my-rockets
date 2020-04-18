@@ -1,12 +1,14 @@
 <h1>Rockets</h1>
 <mat-nav-list>
-  <mat-list-item *ngFor="let rocket of rockets$ | async" [routerLink]="['/rockets', rocket.id]">
-    <img matListAvatar src="https://placekitten.com/50/50" alt="placekitten.com">
-    <a matLine [routerLink]="['/rockets', rocket.id]">{{rocket.name}}</a>
-    <button mat-icon-button>
-      <mat-icon>edit</mat-icon>
-    </button>
-  </mat-list-item>
+  <ng-container *ngFor="let rocket of rockets$ | async; last as isLast">
+    <mat-list-item [routerLink]="['/rockets', rocket.id]">
+      <img matListAvatar src="https://placekitten.com/50/50" alt="placekitten.com">
+      <a matLine [routerLink]="['/rockets', rocket.id]">{{rocket.name}}</a>
+      <button mat-icon-button>
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-list-item>
+  </ng-container>
 </mat-nav-list>
 <button mat-fab color="primary" (click)="openRocketDialog()" class="fab-button">
   <mat-icon>add</mat-icon>

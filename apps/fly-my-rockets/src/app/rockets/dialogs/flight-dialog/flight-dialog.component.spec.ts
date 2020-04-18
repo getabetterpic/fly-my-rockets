@@ -1,3 +1,4 @@
+import { FormBuilder } from '@angular/forms';
 import { FlightDialogComponent } from './flight-dialog.component';
 
 describe('FlightDialogComponent', () => {
@@ -8,7 +9,7 @@ describe('FlightDialogComponent', () => {
   beforeEach(() => {
     dialogRef = { close: jest.fn() };
     data = {};
-    component = new FlightDialogComponent(dialogRef, data);
+    component = new FlightDialogComponent(dialogRef, data, new FormBuilder());
   });
 
   describe('onNoClick', () => {

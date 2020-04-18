@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>
+  Flight Data
+  <button mat-icon-button type="button" class="float-right"
+          *ngIf="!data.new"
+          (click)="deleteFlight()">
+    <mat-icon>delete</mat-icon>
+  </button>
+</h1>
+<mat-dialog-content>
+  <form [formGroup]="flightForm">
+    <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="datepicker" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+      <mat-datepicker #datepicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Altitude</mat-label>
+      <input type="tel" placeholder="3000" matInput formControlName="altitude">
+    </mat-form-field>
+    <ng-container formArrayName="motors">
+      <mat-form-field *ngFor="let motor of motors.controls; index as i">
+        <mat-label>Motor {{i + 1}}</mat-label>
+        <input type="text" placeholder="F37W" matInput [formControlName]="i">
+        <button mat-icon-button matSuffix type="button" (click)="removeMotor(i)" *ngIf="motors.length > 1">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-form-field>
+    </ng-container>
+    <button mat-button type="button" (click)="addMotor()">
+      <mat-icon>add</mat-icon> Add Motor
+    </button>
+    <mat-form-field>
+      <mat-label>Notes</mat-label>
+      <textarea matInput formControlName="notes"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="accent" [mat-dialog-close]="flightForm.value"
+          [disabled]="flightForm.invalid"
+  >Save</button>
+</mat-dialog-actions>

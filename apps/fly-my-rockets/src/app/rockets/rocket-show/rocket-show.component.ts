@@ -3,8 +3,9 @@ import { RocketService } from '../rocket.service';
 import { ActivatedRoute } from '@angular/router';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { FlightDialogComponent } from '../dialogs/flight-dialog.component';
+import { FlightDialogComponent } from '../dialogs/flight-dialog/flight-dialog.component';
 import { Flight, Rocket } from '../rocket.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fmr-rocket-show',
@@ -14,7 +15,7 @@ import { Flight, Rocket } from '../rocket.model';
 export class RocketShowComponent implements OnInit {
   rocket: Rocket;
   rocketId: string;
-  rocket$ = this.route.paramMap.pipe(
+  rocket$: Observable<Rocket> = this.route.paramMap.pipe(
     filter(paramMap => !!paramMap.get('rocketId')),
     switchMap(params => {
       this.rocketId = params.get('rocketId');
@@ -22,8 +23,19 @@ export class RocketShowComponent implements OnInit {
     }),
     tap(rocket => this.rocket = rocket)
   );
-  flights$ = this.rocket$.pipe(
-    map(rocket => rocket.flights)
+  flights$: Observable<Flight[]> = this.rocket$.pipe(
+    map(rocket => rocket.flights),
+    map(flights => {
+      return flights.sort((a, b) => {
+        if (a.date > b.date) {
+          return -1;
+        } else if (b.date > a.date) {
+          return 1;
+        } else {
+          return 0;
+        }
+      })
+    })
   );
 
   constructor(
@@ -35,15 +47,43 @@ export class RocketShowComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openFlightDialog(): void {
+  openFlightDialog(flight: Flight): void {
+    const oldFlight = { ...flight };
     const dialogRef = this.dialog.open(FlightDialogComponent, {
-      width: '500px',
-      data: {}
+      position: {
+        top: '0',
+        left: '0'
+      },
+      minWidth: '100%',
+      height: '100%',
+      data: flight
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.rocketService.createFlight(this.rocketId, result).subscribe();
+    dialogRef.afterClosed().subscribe(updatedFlight => {
+      if (updatedFlight?.delete) {
+        this.rocketService.removeFlight(this.rocketId, oldFlight).subscribe();
+      } else if (updatedFlight) {
+        this.rocketService.updateFlight(this.rocketId, oldFlight, updatedFlight).subscribe();
+      }
+    });
+  }
+
+  newFlightDialog(): void {
+    const dialogRef = this.dialog.open(FlightDialogComponent, {
+      position: {
+        top: '0',
+        left: '0'
+      },
+      minWidth: '100%',
+      height: '100%',
+      data: { new: true }
+    });
+
+    dialogRef.afterClosed().subscribe(newFlight => {
+      if (newFlight) {
+        this.rocketService.createFlight(this.rocketId, newFlight).subscribe(() => {}, (err) => {
+          console.error({ err });
+        });
       }
     });
   }
@@ -55,7 +95,7 @@ export class RocketShowComponent implements OnInit {
       });
   }
 
-  flightDate(flight) {
+  flightDate(flight: Flight) {
     const { date } = flight;
     try {
       return date.toDate();
