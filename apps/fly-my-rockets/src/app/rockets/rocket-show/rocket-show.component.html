@@ -1,5 +1,18 @@
 <div *ngIf="rocket$ | async as rocket">
-  <h1>{{rocket.name}} Flights</h1>
+  <h1 class="flex-header">
+    <span>{{rocket.name}}</span>
+    <span>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openRocketDialog(rocket)">Edit</button>
+        <button mat-menu-item (click)="deleteRocket()">Delete</button>
+      </mat-menu>
+    </span>
+  </h1>
+
+  <h2>Flights</h2>
   <mat-action-list>
     <ng-container *ngFor="let flight of flights$ | async; last as isLast">
       <button mat-list-item (click)="openFlightDialog(flight)">

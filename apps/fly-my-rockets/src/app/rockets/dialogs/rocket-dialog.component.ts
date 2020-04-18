@@ -4,17 +4,17 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'fmr-rocket-dialog',
   template: `
-    <h1 mat-dialog-title>Rocket</h1>
-    <div mat-dialog-content>
-      <p>What's the name of the rocket?</p>
+    <h1 mat-dialog-title>What's the name of the rocket?</h1>
+    <mat-dialog-content>
       <mat-form-field>
-        <input type="text" placeholder="Name" matInput [(ngModel)]="data.name">
+        <mat-label>Name</mat-label>
+        <input type="text" placeholder="PML Black Brant X" matInput [(ngModel)]="data.name">
       </mat-form-field>
-    </div>
-    <div mat-dialog-actions>
-      <button mat-button (click)="onNoClick()">Cancel</button>
-      <button mat-button color="accent" [mat-dialog-close]="data.name">Create</button>
-    </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button type="button" mat-raised-button (click)="onNoClick()">Cancel</button>
+      <button type="submit" mat-raised-button color="accent" [mat-dialog-close]="data.name">Save</button>
+    </mat-dialog-actions>
   `,
   styles: [
   ]

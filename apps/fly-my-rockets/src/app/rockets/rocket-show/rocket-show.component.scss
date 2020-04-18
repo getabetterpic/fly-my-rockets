@@ -3,3 +3,9 @@
   right: 24px;
   bottom: 24px;
 }
+
+.flex-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

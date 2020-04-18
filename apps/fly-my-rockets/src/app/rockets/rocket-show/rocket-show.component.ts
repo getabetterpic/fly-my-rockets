@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { RocketService } from '../rocket.service';
-import { ActivatedRoute } from '@angular/router';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FlightDialogComponent } from '../dialogs/flight-dialog/flight-dialog.component';
-import { Flight, Rocket } from '../rocket.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
+
+import { RocketService } from '../rocket.service';
+import { Flight, Rocket } from '../rocket.model';
+import { FlightDialogComponent } from '../dialogs/flight-dialog/flight-dialog.component';
+import { RocketDialogComponent } from '../dialogs/rocket-dialog.component';
 
 @Component({
   selector: 'fmr-rocket-show',
   templateUrl: './rocket-show.component.html',
   styleUrls: ['./rocket-show.component.scss']
 })
-export class RocketShowComponent implements OnInit {
+export class RocketShowComponent {
   rocket: Rocket;
   rocketId: string;
   rocket$: Observable<Rocket> = this.route.paramMap.pipe(
@@ -41,10 +43,20 @@ export class RocketShowComponent implements OnInit {
   constructor(
     private rocketService: RocketService,
     private route: ActivatedRoute,
+    private router: Router,
     private dialog: MatDialog
   ) { }
 
-  ngOnInit(): void {
+  openRocketDialog(rocket: Rocket): void {
+    const dialogRef = this.dialog.open(RocketDialogComponent, {
+      width: '500px',
+      data: { ...rocket }
+    });
+    dialogRef.afterClosed().subscribe(newName => {
+      if (newName) {
+        this.rocketService.updateRocket(this.rocketId, { name: newName });
+      }
+    })
   }
 
   openFlightDialog(flight: Flight): void {
@@ -93,6 +105,12 @@ export class RocketShowComponent implements OnInit {
       .subscribe(() => {}, (err) => {
         console.error({ err });
       });
+  }
+
+  deleteRocket(): void {
+    this.rocketService.deleteRocket(this.rocketId).subscribe(() => {
+      this.router.navigate(['/rockets'], { replaceUrl: true });
+    })
   }
 
   flightDate(flight: Flight) {
