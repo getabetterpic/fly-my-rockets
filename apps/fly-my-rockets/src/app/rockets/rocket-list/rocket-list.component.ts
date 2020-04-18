@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RocketService } from '../rocket.service';
 import { RocketDialogComponent } from '../dialogs/rocket-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'fmr-rocket-list',

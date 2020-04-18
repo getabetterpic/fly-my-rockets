@@ -28,6 +28,12 @@ export class RocketService {
     )
   }
 
+  updateRocket(rocketId: string, rocket: Rocket): Observable<any> {
+    return from(this.db.collection('rockets').doc(rocketId).update({
+      name: rocket.name
+    }));
+  }
+
   deleteRocket(rocketId: string): Observable<any> {
     return from(this.db.collection('rockets').doc(rocketId).delete());
   }
