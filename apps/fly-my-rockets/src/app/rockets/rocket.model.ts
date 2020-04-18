@@ -2,16 +2,17 @@ export interface Rocket {
   id?: string;
   name?: string;
   manufacturer?: string;
-  flights?: string[];
+  flights?: Flight[];
 }
 
 export interface Flight {
   id?: string;
   location?: string;
   notes?: string;
-  motors?: Motor[];
+  motors?: string[];
   motor?: string;
-  date?: string;
+  date?: FirebaseDate;
+  altitude?: string;
 }
 
 export interface Motor {
@@ -19,4 +20,10 @@ export interface Motor {
   name?: string;
   manufacturer?: string;
   impulse?: string;
+}
+
+interface FirebaseDate {
+  nanoseconds: number;
+  seconds: number;
+  toDate: () => Date;
 }

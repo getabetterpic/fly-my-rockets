@@ -32,12 +32,21 @@ export class RocketService {
     return from(this.db.collection('rockets').doc(rocketId).delete());
   }
 
-  updateFlights(rocketId: string, flightIds: string[]) {
-    flightIds = flightIds.map(fid => `/flights/${fid}`);
-    return from(this.db.collection('rockets').doc(rocketId).update({ flights: FieldValue.arrayUnion(...flightIds) }));
+  updateFlight(rocketId: string, oldFlight: Flight, updatedFlight: Flight): Observable<any> {
+    const rocketDoc = this.db.firestore.collection('rockets').doc(rocketId);
+    return from(this.db.firestore.runTransaction(transaction => {
+      return transaction.get(rocketDoc).then(doc => {
+        transaction.update(rocketDoc, {
+          flights: FieldValue.arrayRemove(oldFlight)
+        });
+        transaction.update(rocketDoc, {
+          flights: FieldValue.arrayUnion(updatedFlight)
+        });
+      });
+    }));
   }
 
-  removeFlight(rocketId: string, flight: Flight) {
+  removeFlight(rocketId: string, flight: Flight): Observable<any> {
     if (typeof flight === 'string') {
       return from(this.db.collection('rockets').doc(rocketId).update({
         flights: FieldValue.arrayRemove(flight)
@@ -78,17 +87,8 @@ export class RocketService {
   }
 
   createFlight(rocketId: string, flight: Flight): Observable<any> {
-    return from(this.afAuth.currentUser).pipe(
-      switchMap(user => {
-        return this.db.collection('flights').add({
-          ...flight,
-          uid: user.uid
-        });
-      }),
-      switchMap(docRef => docRef.get()),
-      mergeMap((newFlightDoc) => {
-        return this.updateFlights(rocketId, [newFlightDoc.id]);
-      })
-    );
+    return from(this.db.collection('rockets').doc(rocketId).update({
+      flights: FieldValue.arrayUnion(flight)
+    }));
   }
 }
