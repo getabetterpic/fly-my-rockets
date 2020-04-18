@@ -9,6 +9,12 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
+$custom-typography: mat-typography-config(
+  $font-family: 'Work Sans, sans-serif'
+);
+
+@include angular-material-typography($custom-typography);
+
 $rockets-blue: (
   50 : #e3eef7,
   100 : #bad4ec,
@@ -64,4 +70,4 @@ $fly-my-rockets-theme: mat-dark-theme($fly-my-rockets-primary, $fly-my-rockets-a
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: "Work Sans", "Helvetica Neue", sans-serif; }
