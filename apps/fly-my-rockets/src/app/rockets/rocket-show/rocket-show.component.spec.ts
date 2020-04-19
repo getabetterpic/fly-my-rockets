@@ -7,6 +7,7 @@ describe('RocketShowComponent', () => {
   let route;
   let router;
   let dialog;
+  let storage;
   let dialogAfterClosed;
 
   beforeEach(() => {
@@ -21,11 +22,13 @@ describe('RocketShowComponent', () => {
     dialog = {
       open: jest.fn().mockReturnValue({ afterClosed: jest.fn().mockReturnValue(dialogAfterClosed) })
     };
+    storage = { ref: jest.fn() };
     component = new RocketShowComponent(
       rocketService,
       route,
       router,
-      dialog
+      dialog,
+      storage
     );
   });
 
@@ -48,7 +51,7 @@ describe('RocketShowComponent', () => {
     it('opens the dialog and updates the rocket', () => {
       component.openRocketDialog({});
       expect(dialog.open).toHaveBeenCalled();
-      dialogAfterClosed.next('some name');
+      dialogAfterClosed.next({ name: 'some name' });
       expect(rocketService.updateRocket).toHaveBeenCalledWith(undefined, { name: 'some name' });
     });
   });
