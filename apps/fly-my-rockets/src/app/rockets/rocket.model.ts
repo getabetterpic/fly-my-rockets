@@ -3,6 +3,7 @@ export interface Rocket {
   name?: string;
   manufacturer?: string;
   flights?: Flight[];
+  photos?: string[];
 }
 
 export interface Flight {
