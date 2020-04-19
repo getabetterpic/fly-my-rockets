@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>
   Flight Data
   <button mat-icon-button type="button" class="float-right"
-          *ngIf="!data.date"
+          *ngIf="data.date"
           (click)="deleteFlight()">
     <mat-icon>delete</mat-icon>
   </button>
