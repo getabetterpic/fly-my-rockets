@@ -24,7 +24,8 @@
             "assets": [
               "apps/fly-my-rockets/src/favicon-196.png",
               "apps/fly-my-rockets/src/assets",
-              "apps/fly-my-rockets/src/manifest.webmanifest"
+              "apps/fly-my-rockets/src/manifest.webmanifest",
+              "apps/fly-my-rockets/src/_redirects"
             ],
             "styles": ["apps/fly-my-rockets/src/styles.scss"],
             "scripts": []
