@@ -47,6 +47,7 @@
     "@nrwl/angular": "9.2.2",
     "core-js": "^2.5.4",
     "firebase": "^7.14.0",
+    "ngx-material-file-input": "^2.1.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~6.5.4",
     "zone.js": "^0.10.2"

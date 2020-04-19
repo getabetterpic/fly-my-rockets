@@ -1,0 +1,26 @@
+<mat-dialog-content>
+  <form [formGroup]="rocketForm">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input type="text" placeholder="PML Black Brant X" matInput formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Select Photo (optional)</mat-label>
+      <ngx-mat-file-input #removableInput formControlName="fileToUpload" accept=".jpg,.png,.jpeg,.webp,.gif"></ngx-mat-file-input>
+      <button mat-icon-button matSuffix *ngIf="!removableInput.empty" (click)="removableInput.clear($event)">
+        <mat-icon>clear</mat-icon>
+      </button>
+      <mat-error *ngIf="fileToUpload.hasError('maxContentSize')">
+        The total size must not exceed
+        {{fileToUpload?.getError('maxContentSize').maxSize | byteFormat}}
+        ({{fileToUpload?.getError('maxContentSize').actualSize| byteFormat}}).
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button type="button" mat-raised-button (click)="onNoClick()">Cancel</button>
+  <button type="submit" mat-raised-button color="accent" (click)="emitRocket()" [disabled]="rocketForm.invalid">
+    Save
+  </button>
+</mat-dialog-actions>
