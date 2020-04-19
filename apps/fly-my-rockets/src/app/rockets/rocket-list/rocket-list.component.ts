@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { RocketService } from '../rocket.service';
-import { RocketDialogComponent } from '../dialogs/rocket-dialog.component';
+import { RocketService } from '../services/rocket/rocket.service';
+import { RocketDialogComponent } from '../dialogs/rocket-dialog/rocket-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -23,9 +23,8 @@ export class RocketListComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.rocketService.createRocket({
-          name: result
-        }).subscribe();
+        const newRocket = { ...result, flights: [] };
+        this.rocketService.createRocket(newRocket).subscribe();
       }
     })
   }
