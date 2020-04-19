@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Rocket } from '../rocket.model';
-import { RocketService } from '../rocket.service';
+import { RocketService } from '../services/rocket/rocket.service';
 import { switchMap, take, tap } from 'rxjs/operators';
 import { FlightService } from '../flight.service';
 

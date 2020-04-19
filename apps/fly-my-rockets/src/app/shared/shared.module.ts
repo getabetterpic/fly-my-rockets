@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core'
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { ShellComponent } from './shell/shell.component';
 
 const components = [ShellComponent];
@@ -37,6 +38,7 @@ const modules = [
   RouterModule,
   MatDatepickerModule,
   MatNativeDateModule,
+  MaterialFileInputModule,
   FormsModule,
   ReactiveFormsModule,
 ];

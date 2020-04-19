@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
-import { RocketService } from '../rocket.service';
+import { RocketService } from '../services/rocket/rocket.service';
 import { Flight, Rocket } from '../rocket.model';
 import { FlightDialogComponent } from '../dialogs/flight-dialog/flight-dialog.component';
-import { RocketDialogComponent } from '../dialogs/rocket-dialog.component';
+import { RocketDialogComponent } from '../dialogs/rocket-dialog/rocket-dialog.component';
+import { rocketPhotoRef, ThumbnailSizes } from '../functions/rocket-photo-ref';
 
 @Component({
   selector: 'fmr-rocket-show',
@@ -17,13 +19,23 @@ import { RocketDialogComponent } from '../dialogs/rocket-dialog.component';
 export class RocketShowComponent {
   rocket: Rocket;
   rocketId: string;
+  rocketPhotoUrl$: Observable<any>;
   rocket$: Observable<Rocket> = this.route.paramMap.pipe(
     filter(paramMap => !!paramMap.get('rocketId')),
     switchMap(params => {
       this.rocketId = params.get('rocketId');
       return this.rocketService.getRocket(this.rocketId)
     }),
-    tap(rocket => this.rocket = rocket)
+    tap(rocket => {
+      this.rocket = rocket;
+      if (rocket.photos && Array.isArray(rocket.photos)) {
+        const originalRef = rocket.photos[0];
+        const mediumRef = rocketPhotoRef(originalRef, ThumbnailSizes.Medium);
+        this.rocketPhotoUrl$ = this.storage.ref(mediumRef).getDownloadURL();
+      } else {
+        this.rocketPhotoUrl$ = of(null);
+      }
+    })
   );
   flights$: Observable<Flight[]> = this.rocket$.pipe(
     map(rocket => rocket.flights),
@@ -44,7 +56,8 @@ export class RocketShowComponent {
     private rocketService: RocketService,
     private route: ActivatedRoute,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private storage: AngularFireStorage
   ) { }
 
   openRocketDialog(rocket: Rocket): void {
@@ -52,9 +65,9 @@ export class RocketShowComponent {
       width: '500px',
       data: { ...rocket }
     });
-    dialogRef.afterClosed().subscribe(newName => {
-      if (newName) {
-        this.rocketService.updateRocket(this.rocketId, { name: newName });
+    dialogRef.afterClosed().subscribe(update => {
+      if (update) {
+        this.rocketService.updateRocket(this.rocketId, update);
       }
     })
   }

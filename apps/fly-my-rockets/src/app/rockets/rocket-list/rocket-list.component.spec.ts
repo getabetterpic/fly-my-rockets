@@ -5,13 +5,16 @@ describe('RocketListComponent', () => {
   let component: RocketListComponent;
   let rocketService;
   let matDialog;
+  let storage;
 
   beforeEach(() => {
     rocketService = { getUserRockets: jest.fn().mockReturnValue(of({})) };
     matDialog = {};
+    storage = {};
     component = new RocketListComponent(
       rocketService,
-      matDialog
+      matDialog,
+      storage
     );
   });
 
