@@ -11,17 +11,24 @@
   </mat-card>
 
   <h2>Flights</h2>
-  <mat-action-list>
+  <mat-list>
     <ng-container *ngFor="let flight of flights$ | async; last as isLast">
-      <button mat-list-item (click)="openFlightDialog(flight)">
+      <mat-list-item>
         <img matListAvatar src="https://placekitten.com/50/50" alt="placekitten.com">
         <h3 matLine>{{flightDate(flight) | date}}</h3>
         <span matLine>{{(flight.motors || []).join(', ')}}</span>
         <span matLine>{{flight.altitude | number}}</span>
-      </button>
+        <button mat-icon-button [matMenuTriggerFor]="flightActions">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #flightActions="matMenu">
+          <button mat-menu-item (click)="openFlightDialog(flight)">Edit</button>
+          <button mat-menu-item (click)="removeFlight(flight)">Delete</button>
+        </mat-menu>
+      </mat-list-item>
       <mat-divider *ngIf="!isLast"></mat-divider>
     </ng-container>
-  </mat-action-list>
+  </mat-list>
 </div>
 <button type="button" mat-fab color="primary" class="fab-button"
         (click)="newFlightDialog()">
