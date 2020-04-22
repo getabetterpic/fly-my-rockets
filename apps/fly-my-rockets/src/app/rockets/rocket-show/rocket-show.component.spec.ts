@@ -20,7 +20,11 @@ describe('RocketShowComponent', () => {
     router = { navigate: jest.fn() };
     dialogAfterClosed = new Subject();
     dialog = {
-      open: jest.fn().mockReturnValue({ afterClosed: jest.fn().mockReturnValue(dialogAfterClosed) })
+      open: jest
+        .fn()
+        .mockReturnValue({
+          afterClosed: jest.fn().mockReturnValue(dialogAfterClosed)
+        })
     };
     storage = { ref: jest.fn() };
     component = new RocketShowComponent(
@@ -43,7 +47,9 @@ describe('RocketShowComponent', () => {
     it('deletes the rocket and navigates back to rockets', () => {
       component.deleteRocket();
       expect(rocketService.deleteRocket).toHaveBeenCalled();
-      expect(router.navigate).toHaveBeenCalledWith(['/rockets'], { replaceUrl: true });
+      expect(router.navigate).toHaveBeenCalledWith(['/rockets'], {
+        replaceUrl: true
+      });
     });
   });
 
@@ -52,7 +58,18 @@ describe('RocketShowComponent', () => {
       component.openRocketDialog({});
       expect(dialog.open).toHaveBeenCalled();
       dialogAfterClosed.next({ name: 'some name' });
-      expect(rocketService.updateRocket).toHaveBeenCalledWith(undefined, { name: 'some name' });
+      expect(rocketService.updateRocket).toHaveBeenCalledWith(undefined, {
+        name: 'some name'
+      });
+    });
+  });
+
+  describe('removePhoto', () => {
+    it('sets the rocket photos array to empty', () => {
+      component.removePhoto();
+      expect(rocketService.updateRocket).toHaveBeenCalledWith(undefined, {
+        photos: []
+      });
     });
   });
 });
