@@ -15,7 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core'
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { ShellComponent } from './shell/shell.component';
 
@@ -38,17 +39,15 @@ const modules = [
   RouterModule,
   MatDatepickerModule,
   MatNativeDateModule,
+  MatProgressBarModule,
   MaterialFileInputModule,
   FormsModule,
-  ReactiveFormsModule,
+  ReactiveFormsModule
 ];
 
 @NgModule({
   declarations: [...components],
   imports: [...modules],
-  exports: [
-    ...components,
-    ...modules,
-  ]
+  exports: [...components, ...modules]
 })
 export class SharedModule {}

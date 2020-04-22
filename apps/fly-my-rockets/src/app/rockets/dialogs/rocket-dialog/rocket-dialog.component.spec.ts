@@ -11,25 +11,33 @@ describe('RocketDialogComponent', () => {
   let mockFileInput;
 
   beforeEach(() => {
-    dialogRef = { close: jest.fn(), getState: jest.fn().mockReturnValue(MatDialogState.OPEN) };
+    dialogRef = {
+      close: jest.fn(),
+      getState: jest.fn().mockReturnValue(MatDialogState.OPEN)
+    };
     data = {};
     photosService = {
       uploadRocketPhoto: jest.fn().mockReturnValue(
         of({
-          snapshotChanges: () => of({
-            ref: { fullPath: 'asdf1234/images/rockets/IMG_1234.jpg' },
-            bytesTransferred: 1000,
-            totalBytes: 1000
-          })
+          snapshotChanges: () =>
+            of({
+              ref: { fullPath: 'asdf1234/images/rockets/IMG_1234.jpg' },
+              bytesTransferred: 1000,
+              totalBytes: 1000
+            })
         })
-      )
+      ),
+      getMetadata: jest.fn().mockReturnValue(of({}))
     };
     mockFileInput = {
-      files: [
-        { size: 100 }
-      ]
+      files: [{ size: 100 }]
     };
-    component = new RocketDialogComponent(dialogRef, data, photosService, new FormBuilder());
+    component = new RocketDialogComponent(
+      dialogRef,
+      data,
+      photosService,
+      new FormBuilder()
+    );
   });
 
   describe('onNoClick', () => {
@@ -53,11 +61,13 @@ describe('RocketDialogComponent', () => {
         component.rocketForm.get('name').setValue('PML Ariel');
         component.fileToUpload.setValue(mockFileInput);
         component.emitRocket();
-        expect(photosService.uploadRocketPhoto).toHaveBeenCalledWith(mockFileInput.files[0]);
+        expect(photosService.uploadRocketPhoto).toHaveBeenCalledWith(
+          mockFileInput.files[0]
+        );
         expect(dialogRef.close).toHaveBeenCalledWith({
           name: 'PML Ariel',
           photos: ['asdf1234/images/rockets/IMG_1234.jpg']
-        })
+        });
       });
     });
   });

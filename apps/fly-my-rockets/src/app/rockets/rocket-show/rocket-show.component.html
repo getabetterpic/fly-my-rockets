@@ -3,7 +3,7 @@
     <mat-card-header>
       <mat-card-title>{{rocket.name}}</mat-card-title>
     </mat-card-header>
-    <img mat-card-image [src]="(rocketPhotoUrl$ | async) || 'assets/icons/icon-512.png'" [alt]="rocket.name">
+    <img mat-card-image *ngIf="rocketPhotoUrl$ | async as photoUrl" [src]="photoUrl" [alt]="rocket.name">
     <mat-card-actions>
       <button mat-button (click)="openRocketDialog(rocket)">Edit</button>
       <button mat-button color="warn" (click)="deleteRocket()">Delete</button>
