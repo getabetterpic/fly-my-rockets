@@ -32,7 +32,11 @@ export class RocketShowComponent {
     }),
     tap(rocket => {
       this.rocket = rocket;
-      if (rocket.photos && Array.isArray(rocket.photos)) {
+      if (
+        rocket.photos &&
+        Array.isArray(rocket.photos) &&
+        rocket.photos.length > 0
+      ) {
         const originalRef = rocket.photos[0];
         const mediumRef = rocketPhotoRef(originalRef, ThumbnailSizes.Medium);
         this.rocketPhotoUrl$ = this.storage.ref(mediumRef).getDownloadURL();
@@ -146,5 +150,15 @@ export class RocketShowComponent {
     } catch {
       return date;
     }
+  }
+
+  removePhoto(): void {
+    this.rocketService
+      .updateRocket(this.rocketId, {
+        photos: []
+      })
+      .subscribe(() => {
+        this.rocketUpdated$.next();
+      });
   }
 }
