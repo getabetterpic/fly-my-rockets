@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import {
+  AngularFireStorage,
+  AngularFireUploadTask
+} from '@angular/fire/storage';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, Observable, timer } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -31,7 +34,7 @@ export class PhotoUploadService {
     return timer(1_000).pipe(
       switchMap(() => {
         return from(getMetadata).pipe(
-          catchError((err) => {
+          catchError(err => {
             return this.getMetadata(ref);
           })
         );
