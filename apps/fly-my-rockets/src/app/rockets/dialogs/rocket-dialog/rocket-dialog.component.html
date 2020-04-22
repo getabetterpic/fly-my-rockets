@@ -16,6 +16,14 @@
         ({{fileToUpload?.getError('maxContentSize').actualSize| byteFormat}}).
       </mat-error>
     </mat-form-field>
+    <div *ngIf="uploading$ | async">
+      Uploading
+      <mat-progress-bar mode="determinate" [value]="percentComplete$ | async" color="primary"></mat-progress-bar>
+    </div>
+    <div *ngIf="processing$ | async">
+      Processing
+      <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
+    </div>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

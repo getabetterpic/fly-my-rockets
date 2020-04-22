@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { RocketService } from '../services/rocket/rocket.service';
@@ -20,11 +20,15 @@ export class RocketShowComponent {
   rocket: Rocket;
   rocketId: string;
   rocketPhotoUrl$: Observable<any>;
-  rocket$: Observable<Rocket> = this.route.paramMap.pipe(
-    filter(paramMap => !!paramMap.get('rocketId')),
-    switchMap(params => {
+  private rocketUpdated$ = new BehaviorSubject<void>(null);
+  rocket$: Observable<Rocket> = combineLatest([
+    this.route.paramMap,
+    this.rocketUpdated$
+  ]).pipe(
+    filter(([paramMap]) => !!paramMap.get('rocketId')),
+    switchMap(([params]) => {
       this.rocketId = params.get('rocketId');
-      return this.rocketService.getRocket(this.rocketId)
+      return this.rocketService.getRocket(this.rocketId);
     }),
     tap(rocket => {
       this.rocket = rocket;
@@ -48,7 +52,7 @@ export class RocketShowComponent {
         } else {
           return 0;
         }
-      })
+      });
     })
   );
 
@@ -58,7 +62,7 @@ export class RocketShowComponent {
     private router: Router,
     private dialog: MatDialog,
     private storage: AngularFireStorage
-  ) { }
+  ) {}
 
   openRocketDialog(rocket: Rocket): void {
     const dialogRef = this.dialog.open(RocketDialogComponent, {
@@ -67,9 +71,11 @@ export class RocketShowComponent {
     });
     dialogRef.afterClosed().subscribe(update => {
       if (update) {
-        this.rocketService.updateRocket(this.rocketId, update);
+        this.rocketService.updateRocket(this.rocketId, update).subscribe(() => {
+          this.rocketUpdated$.next();
+        });
       }
-    })
+    });
   }
 
   openFlightDialog(flight: Flight): void {
@@ -88,7 +94,9 @@ export class RocketShowComponent {
       if (updatedFlight?.delete) {
         this.rocketService.removeFlight(this.rocketId, oldFlight).subscribe();
       } else if (updatedFlight) {
-        this.rocketService.updateFlight(this.rocketId, oldFlight, updatedFlight).subscribe();
+        this.rocketService
+          .updateFlight(this.rocketId, oldFlight, updatedFlight)
+          .subscribe();
       }
     });
   }
@@ -106,24 +114,29 @@ export class RocketShowComponent {
 
     dialogRef.afterClosed().subscribe(newFlight => {
       if (newFlight) {
-        this.rocketService.createFlight(this.rocketId, newFlight).subscribe(() => {}, (err) => {
-          console.error({ err });
-        });
+        this.rocketService.createFlight(this.rocketId, newFlight).subscribe(
+          () => {},
+          err => {
+            console.error({ err });
+          }
+        );
       }
     });
   }
 
   removeFlight(flight: Flight): void {
-    this.rocketService.removeFlight(this.rocketId, flight)
-      .subscribe(() => {}, (err) => {
+    this.rocketService.removeFlight(this.rocketId, flight).subscribe(
+      () => {},
+      err => {
         console.error({ err });
-      });
+      }
+    );
   }
 
   deleteRocket(): void {
     this.rocketService.deleteRocket(this.rocketId).subscribe(() => {
       this.router.navigate(['/rockets'], { replaceUrl: true });
-    })
+    });
   }
 
   flightDate(flight: Flight) {
