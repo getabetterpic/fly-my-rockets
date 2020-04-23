@@ -27,8 +27,8 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button type="button" mat-raised-button (click)="onNoClick()">Cancel</button>
-  <button type="submit" mat-raised-button color="accent" (click)="emitRocket()" [disabled]="rocketForm.invalid">
+  <button type="button" mat-button (click)="onNoClick()">Cancel</button>
+  <button type="submit" mat-button (click)="emitRocket()" [disabled]="rocketForm.invalid">
     Save
   </button>
 </mat-dialog-actions>
