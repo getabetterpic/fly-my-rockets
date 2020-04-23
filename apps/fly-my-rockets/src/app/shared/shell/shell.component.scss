@@ -15,7 +15,7 @@
 
 .sidenav {
   width: 200px;
-  font-family: "Work Sans";
+  font-family: "Work Sans", sans-serif;
 }
 
 .sidenav .mat-toolbar {
@@ -52,5 +52,7 @@ i {
 .main-content {
   max-width: 920px;
   margin: 24px auto;
-  padding: 24px 12px;
+  // 68px bottom padding + 24px bottom margin to make sure nothing
+  // is obscured by the FAB
+  padding: 24px 12px 68px 12px;
 }

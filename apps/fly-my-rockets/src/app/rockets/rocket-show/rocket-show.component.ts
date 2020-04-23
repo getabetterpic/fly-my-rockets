@@ -10,6 +10,7 @@ import { Flight, Rocket } from '../rocket.model';
 import { FlightDialogComponent } from '../dialogs/flight-dialog/flight-dialog.component';
 import { RocketDialogComponent } from '../dialogs/rocket-dialog/rocket-dialog.component';
 import { rocketPhotoRef, ThumbnailSizes } from '../functions/rocket-photo-ref';
+import { AreYouSureComponent } from '../../shared/are-you-sure/are-you-sure.component';
 
 @Component({
   selector: 'fmr-rocket-show',
@@ -137,9 +138,18 @@ export class RocketShowComponent {
     );
   }
 
-  deleteRocket(): void {
-    this.rocketService.deleteRocket(this.rocketId).subscribe(() => {
-      this.router.navigate(['/rockets'], { replaceUrl: true });
+  confirmDelete(): void {
+    const dialogRef = this.dialog.open(AreYouSureComponent, {
+      data: {
+        message: 'Are you sure you want to delete this rocket?',
+        yesColor: 'warn'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.deleteRocket();
+      }
     });
   }
 
@@ -160,5 +170,11 @@ export class RocketShowComponent {
       .subscribe(() => {
         this.rocketUpdated$.next();
       });
+  }
+
+  private deleteRocket(): void {
+    this.router.navigate(['/rockets'], { replaceUrl: true }).then(() => {
+      this.rocketService.deleteRocket(this.rocketId).subscribe();
+    });
   }
 }

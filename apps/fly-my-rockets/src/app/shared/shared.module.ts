@@ -17,10 +17,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { ShellComponent } from './shell/shell.component';
+import { AreYouSureComponent } from './are-you-sure/are-you-sure.component';
 
-const components = [ShellComponent];
+const entryComponents = [AreYouSureComponent];
+
+const components = [ShellComponent, ...entryComponents];
 
 const modules = [
   CommonModule,
@@ -40,6 +44,7 @@ const modules = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatProgressBarModule,
+  MatDialogModule,
   MaterialFileInputModule,
   FormsModule,
   ReactiveFormsModule
@@ -48,6 +53,7 @@ const modules = [
 @NgModule({
   declarations: [...components],
   imports: [...modules],
-  exports: [...components, ...modules]
+  exports: [...components, ...modules],
+  entryComponents
 })
 export class SharedModule {}
