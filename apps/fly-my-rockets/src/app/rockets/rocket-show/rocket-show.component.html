@@ -4,15 +4,19 @@
       <mat-card-title>{{rocket.name}}</mat-card-title>
     </mat-card-header>
     <img mat-card-image *ngIf="rocketPhotoUrl$ | async as photoUrl" [src]="photoUrl" [alt]="rocket.name">
-    <mat-card-actions align="end">
-      <button mat-icon-button [matMenuTriggerFor]="rocketEdit">
+    <mat-card-actions>
+      <button mat-button (click)="openRocketDialog(rocket)">
+        Edit
+      </button>
+      <button mat-button (click)="removePhoto()" *ngIf="rocket.photos && rocket.photos.length > 0">
+        Remove Photo
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="rocketMore" class="float-right">
         <mat-icon>more_vert</mat-icon>
       </button>
     </mat-card-actions>
   </mat-card>
-  <mat-menu #rocketEdit="matMenu">
-    <button mat-menu-item (click)="openRocketDialog(rocket)">Edit Details</button>
-    <button mat-menu-item (click)="removePhoto()" *ngIf="rocket.photos && rocket.photos.length > 0">Remove Photo</button>
+  <mat-menu #rocketMore="matMenu">
     <button mat-menu-item (click)="confirmDelete()">Delete Rocket</button>
   </mat-menu>
 
