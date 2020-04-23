@@ -1,5 +1,7 @@
-import { RocketShowComponent } from './rocket-show.component';
+import { fakeAsync, tick } from '@angular/core/testing';
 import { of, Subject } from 'rxjs';
+import { RocketShowComponent } from './rocket-show.component';
+import { AreYouSureComponent } from '../../shared/are-you-sure/are-you-sure.component';
 
 describe('RocketShowComponent', () => {
   let component: RocketShowComponent;
@@ -17,7 +19,7 @@ describe('RocketShowComponent', () => {
       updateRocket: jest.fn().mockReturnValue(of({}))
     };
     route = { paramMap: new Subject() };
-    router = { navigate: jest.fn() };
+    router = { navigate: jest.fn().mockReturnValue(Promise.resolve()) };
     dialogAfterClosed = new Subject();
     dialog = {
       open: jest.fn().mockReturnValue({
@@ -41,14 +43,22 @@ describe('RocketShowComponent', () => {
     });
   });
 
-  describe('deleteRocket', () => {
-    it('deletes the rocket and navigates back to rockets', () => {
-      component.deleteRocket();
-      expect(rocketService.deleteRocket).toHaveBeenCalled();
+  describe('confirmDelete', () => {
+    it('opens the confirm dialog', fakeAsync(() => {
+      component.confirmDelete();
+      expect(dialog.open).toHaveBeenCalledWith(AreYouSureComponent, {
+        data: {
+          message: 'Are you sure you want to delete this rocket?',
+          yesColor: 'warn'
+        }
+      });
+      dialogAfterClosed.next(true);
+      tick();
       expect(router.navigate).toHaveBeenCalledWith(['/rockets'], {
         replaceUrl: true
       });
-    });
+      expect(rocketService.deleteRocket).toHaveBeenCalledWith(undefined);
+    }));
   });
 
   describe('openRocketDialog', () => {
