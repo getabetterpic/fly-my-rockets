@@ -86,12 +86,7 @@ export class RocketShowComponent {
   openFlightDialog(flight: Flight): void {
     const oldFlight = { ...flight };
     const dialogRef = this.dialog.open(FlightDialogComponent, {
-      position: {
-        top: '0',
-        left: '0'
-      },
-      minWidth: '100%',
-      height: '100%',
+      width: '350px',
       data: flight
     });
 
@@ -108,12 +103,7 @@ export class RocketShowComponent {
 
   newFlightDialog(): void {
     const dialogRef = this.dialog.open(FlightDialogComponent, {
-      position: {
-        top: '0',
-        left: '0'
-      },
-      minWidth: '100%',
-      height: '100%',
+      width: '350px',
       data: { new: true }
     });
 
