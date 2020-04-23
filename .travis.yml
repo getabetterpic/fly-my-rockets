@@ -1,13 +1,3 @@
 language: node_js
 node_js:
   - lts/*
-before_deploy: "ng build --prod"
-deploy:
-  provider: netlify
-  site: 64a2181c-4e92-459c-bbe9-56ebb2a76c99
-  auth: $NETLIFY_AUTH
-  dir: dist/apps/fly-my-rockets
-  prod: true
-  edge: true
-  on:
-    branch: master
