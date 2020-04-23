@@ -3,11 +3,6 @@
   "projects": {
     "fly-my-rockets": {
       "projectType": "application",
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      },
       "root": "apps/fly-my-rockets",
       "sourceRoot": "apps/fly-my-rockets/src",
       "prefix": "fmr",
@@ -221,6 +216,9 @@
     },
     "@nrwl/angular:library": {
       "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
     }
   },
   "defaultProject": "fly-my-rockets"
