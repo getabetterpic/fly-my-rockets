@@ -20,11 +20,9 @@ describe('RocketShowComponent', () => {
     router = { navigate: jest.fn() };
     dialogAfterClosed = new Subject();
     dialog = {
-      open: jest
-        .fn()
-        .mockReturnValue({
-          afterClosed: jest.fn().mockReturnValue(dialogAfterClosed)
-        })
+      open: jest.fn().mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue(dialogAfterClosed)
+      })
     };
     storage = { ref: jest.fn() };
     component = new RocketShowComponent(

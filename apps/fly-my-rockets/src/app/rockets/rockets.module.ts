@@ -10,7 +10,6 @@ import { RocketShowComponent } from './rocket-show/rocket-show.component';
 import { FlightDialogComponent } from './dialogs/flight-dialog/flight-dialog.component';
 import { FlightNewComponent } from './flight-new/flight-new.component';
 
-
 @NgModule({
   declarations: [
     RocketListComponent,
@@ -19,12 +18,7 @@ import { FlightNewComponent } from './flight-new/flight-new.component';
     FlightDialogComponent,
     FlightNewComponent
   ],
-  imports: [
-    CommonModule,
-    RocketsRoutingModule,
-    SharedModule,
-    MatDialogModule,
-  ],
+  imports: [CommonModule, RocketsRoutingModule, SharedModule, MatDialogModule],
   entryComponents: [RocketDialogComponent]
 })
-export class RocketsModule { }
+export class RocketsModule {}
