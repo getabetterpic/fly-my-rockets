@@ -7,7 +7,12 @@ import {
 import { PhotoUploadService } from '../../services/photo-upload/photo-upload.service';
 import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 import { FileValidator } from 'ngx-material-file-input';
 import {
   rocketPhotoRef,
@@ -34,7 +39,7 @@ export class RocketDialogComponent implements OnDestroy {
     fb: FormBuilder
   ) {
     this.rocketForm = fb.group({
-      name: data?.name,
+      name: [data?.name, Validators.required],
       fileToUpload: [undefined, FileValidator.maxContentSize(10 * 2 ** 19)] // ~5.24MB
     });
   }
