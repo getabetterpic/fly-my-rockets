@@ -7,15 +7,13 @@ import { RocketListComponent } from './rocket-list/rocket-list.component';
 import { RocketDialogComponent } from './dialogs/rocket-dialog/rocket-dialog.component';
 import { RocketShowComponent } from './rocket-show/rocket-show.component';
 import { FlightDialogComponent } from './dialogs/flight-dialog/flight-dialog.component';
-import { FlightNewComponent } from './flight-new/flight-new.component';
 
 @NgModule({
   declarations: [
     RocketListComponent,
     RocketDialogComponent,
     RocketShowComponent,
-    FlightDialogComponent,
-    FlightNewComponent
+    FlightDialogComponent
   ],
   imports: [CommonModule, RocketsRoutingModule, SharedModule],
   entryComponents: [RocketDialogComponent]
