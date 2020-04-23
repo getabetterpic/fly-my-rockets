@@ -86,12 +86,7 @@ export class RocketShowComponent {
   openFlightDialog(flight: Flight): void {
     const oldFlight = { ...flight };
     const dialogRef = this.dialog.open(FlightDialogComponent, {
-      position: {
-        top: '0',
-        left: '0'
-      },
-      minWidth: '100%',
-      height: '100%',
+      width: '350px',
       data: flight
     });
 
@@ -108,12 +103,7 @@ export class RocketShowComponent {
 
   newFlightDialog(): void {
     const dialogRef = this.dialog.open(FlightDialogComponent, {
-      position: {
-        top: '0',
-        left: '0'
-      },
-      minWidth: '100%',
-      height: '100%',
+      width: '350px',
       data: { new: true }
     });
 
@@ -130,12 +120,17 @@ export class RocketShowComponent {
   }
 
   removeFlight(flight: Flight): void {
-    this.rocketService.removeFlight(this.rocketId, flight).subscribe(
-      () => {},
-      err => {
-        console.error({ err });
+    const dialogRef = this.dialog.open(AreYouSureComponent, {
+      data: {
+        message: 'Are you sure you want to delete this flight?',
+        yesColor: 'warn'
       }
-    );
+    });
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.reallyRemoveFlight(flight);
+      }
+    });
   }
 
   confirmDelete(): void {
@@ -176,5 +171,14 @@ export class RocketShowComponent {
     this.router.navigate(['/rockets'], { replaceUrl: true }).then(() => {
       this.rocketService.deleteRocket(this.rocketId).subscribe();
     });
+  }
+
+  private reallyRemoveFlight(flight): void {
+    this.rocketService.removeFlight(this.rocketId, flight).subscribe(
+      () => {},
+      err => {
+        console.error({ err });
+      }
+    );
   }
 }
