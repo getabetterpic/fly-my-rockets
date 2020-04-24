@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'fmr-email-login',
@@ -22,15 +19,16 @@ export class EmailLoginComponent implements OnInit {
   passwordFieldType: 'password' | 'text' = 'password';
   passwordConfirmFieldType: 'password' | 'text' = 'password';
 
-  constructor(private afAuth: AngularFireAuth, private fb: FormBuilder) {}
+  constructor(
+    private afAuth: AngularFireAuth,
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [Validators.minLength(6), Validators.required]
-      ],
+      password: ['', [Validators.minLength(6), Validators.required]],
       passwordConfirm: ['', []]
     });
   }
@@ -79,6 +77,7 @@ export class EmailLoginComponent implements OnInit {
     try {
       if (this.isLogin) {
         await this.afAuth.signInWithEmailAndPassword(email, password);
+        this.router.navigate(['/rockets']);
       }
       if (this.isSignup) {
         await this.afAuth.createUserWithEmailAndPassword(email, password);

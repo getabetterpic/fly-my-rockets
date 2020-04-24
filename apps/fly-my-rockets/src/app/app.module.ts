@@ -15,6 +15,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import {
+  AngularFirePerformanceModule,
+  PerformanceMonitoringService
+} from '@angular/fire/performance';
 
 @NgModule({
   declarations: [AppComponent, HomePageComponent],
@@ -28,12 +32,13 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     AngularFireStorageModule,
+    AngularFirePerformanceModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       registrationStrategy: 'registerImmediately'
     })
   ],
-  providers: [],
+  providers: [PerformanceMonitoringService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

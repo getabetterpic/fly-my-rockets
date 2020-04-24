@@ -4,17 +4,16 @@ import { FormBuilder } from '@angular/forms';
 describe('EmailLoginComponent', () => {
   let component: EmailLoginComponent;
   let afAuth;
+  let router;
 
   beforeEach(() => {
     afAuth = {
       signInWithEmailAndPassword: jest.fn(),
       createUserWithEmailAndPassword: jest.fn(),
       sendPasswordResetEmail: jest.fn()
-    }
-    component = new EmailLoginComponent(
-      afAuth,
-      new FormBuilder()
-    );
+    };
+    router = { navigate: jest.fn() };
+    component = new EmailLoginComponent(afAuth, new FormBuilder(), router);
   });
 
   describe('ngOnInit', () => {

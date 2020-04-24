@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'fmr-shell',
@@ -10,8 +11,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
   styleUrls: ['./shell.component.scss']
 })
 export class ShellComponent {
-
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset])
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe([Breakpoints.Handset])
     .pipe(
       map(result => result.matches),
       shareReplay()
@@ -19,7 +20,13 @@ export class ShellComponent {
 
   constructor(
     public afAuth: AngularFireAuth,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private router: Router
   ) {}
 
+  signOut(): void {
+    this.afAuth.signOut().then(() => {
+      this.router.navigate(['/login']);
+    });
+  }
 }
