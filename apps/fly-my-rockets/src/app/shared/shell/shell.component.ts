@@ -26,7 +26,7 @@ export class ShellComponent {
 
   signOut(): void {
     this.afAuth.signOut().then(() => {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/user/login']);
     });
   }
 }

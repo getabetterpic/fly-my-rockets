@@ -7,8 +7,8 @@ import {
   redirectUnauthorizedTo
 } from '@angular/fire/auth-guard';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/login']);
-const redirectLoggedInToRockets = () => redirectLoggedInTo(['/rockets']);
+const redirectUnauthorizedToLogin = () =>
+  redirectUnauthorizedTo(['/user/login']);
 
 const routes: Routes = [
   {
@@ -16,9 +16,7 @@ const routes: Routes = [
     component: HomePageComponent
   },
   {
-    path: 'login',
-    canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectLoggedInToRockets },
+    path: 'user',
     loadChildren: () => import('./user/user.module').then(m => m.UserModule)
   },
   {
@@ -27,6 +25,10 @@ const routes: Routes = [
       import('./rockets/rockets.module').then(m => m.RocketsModule),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'login',
+    redirectTo: '/user/login'
   }
 ];
 
