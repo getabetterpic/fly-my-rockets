@@ -24,6 +24,6 @@ import { ComponentsModule } from './components/components.module';
     PipesModule,
     ComponentsModule
   ],
-  entryComponents: [RocketDialogComponent]
+  entryComponents: [FlightDialogComponent, RocketDialogComponent]
 })
 export class RocketsModule {}
