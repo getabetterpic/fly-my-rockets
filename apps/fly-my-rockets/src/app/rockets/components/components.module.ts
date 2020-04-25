@@ -4,10 +4,14 @@ import { SharedModule } from '../../shared/shared.module';
 import { PipesModule } from '../pipes/pipes.module';
 
 import { FlightComponent } from './flight/flight.component';
+import { RocketListComponent } from './rocket-list/rocket-list.component';
+import { RocketShowComponent } from './rocket-show/rocket-show.component';
+
+const components = [FlightComponent, RocketListComponent, RocketShowComponent];
 
 @NgModule({
-  declarations: [FlightComponent],
+  declarations: [...components],
   imports: [CommonModule, SharedModule, PipesModule],
-  exports: [FlightComponent]
+  exports: [...components]
 })
 export class ComponentsModule {}

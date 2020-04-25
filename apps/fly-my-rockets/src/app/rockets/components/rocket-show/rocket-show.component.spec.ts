@@ -1,7 +1,7 @@
 import { fakeAsync, tick } from '@angular/core/testing';
 import { of, Subject } from 'rxjs';
 import { RocketShowComponent } from './rocket-show.component';
-import { AreYouSureComponent } from '../../shared/are-you-sure/are-you-sure.component';
+import { AreYouSureComponent } from '../../../shared/are-you-sure/are-you-sure.component';
 
 describe('RocketShowComponent', () => {
   let component: RocketShowComponent;
