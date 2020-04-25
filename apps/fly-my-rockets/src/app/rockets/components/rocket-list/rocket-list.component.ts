@@ -4,9 +4,12 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { RocketService } from '../services/rocket/rocket.service';
-import { RocketDialogComponent } from '../dialogs/rocket-dialog/rocket-dialog.component';
-import { rocketPhotoRef, ThumbnailSizes } from '../functions/rocket-photo-ref';
+import { RocketService } from '../../services/rocket/rocket.service';
+import { RocketDialogComponent } from '../../dialogs/rocket-dialog/rocket-dialog.component';
+import {
+  rocketPhotoRef,
+  ThumbnailSizes
+} from '../../functions/rocket-photo-ref';
 
 @Component({
   selector: 'fmr-rocket-list',
@@ -16,10 +19,15 @@ import { rocketPhotoRef, ThumbnailSizes } from '../functions/rocket-photo-ref';
 export class RocketListComponent {
   rockets$ = this.rocketService.getUserRockets().pipe(
     tap(rockets => {
-      rockets.forEach((rocket) => {
+      rockets.forEach(rocket => {
         if (rocket.photos) {
-          const photoRef = rocketPhotoRef(rocket.photos[0], ThumbnailSizes.Small);
-          this.rocketPhotoMap[rocket.id] = this.storage.ref(photoRef).getDownloadURL();
+          const photoRef = rocketPhotoRef(
+            rocket.photos[0],
+            ThumbnailSizes.Small
+          );
+          this.rocketPhotoMap[rocket.id] = this.storage
+            .ref(photoRef)
+            .getDownloadURL();
         } else {
           this.rocketPhotoMap[rocket.id] = of(null);
         }
@@ -33,7 +41,7 @@ export class RocketListComponent {
     private rocketService: RocketService,
     public matDialog: MatDialog,
     private storage: AngularFireStorage
-  ) { }
+  ) {}
 
   openRocketDialog(): void {
     const dialogRef = this.matDialog.open(RocketDialogComponent, {
@@ -45,7 +53,6 @@ export class RocketListComponent {
         const newRocket = { ...result, flights: [] };
         this.rocketService.createRocket(newRocket).subscribe();
       }
-    })
+    });
   }
-
 }

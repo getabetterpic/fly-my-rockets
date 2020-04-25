@@ -5,12 +5,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
-import { RocketService } from '../services/rocket/rocket.service';
-import { Flight, Rocket } from '../rocket.model';
-import { FlightDialogComponent } from '../dialogs/flight-dialog/flight-dialog.component';
-import { RocketDialogComponent } from '../dialogs/rocket-dialog/rocket-dialog.component';
-import { rocketPhotoRef, ThumbnailSizes } from '../functions/rocket-photo-ref';
-import { AreYouSureComponent } from '../../shared/are-you-sure/are-you-sure.component';
+import { RocketService } from '../../services/rocket/rocket.service';
+import { Flight, Rocket } from '../../rocket.model';
+import { FlightDialogComponent } from '../../dialogs/flight-dialog/flight-dialog.component';
+import { RocketDialogComponent } from '../../dialogs/rocket-dialog/rocket-dialog.component';
+import {
+  rocketPhotoRef,
+  ThumbnailSizes
+} from '../../functions/rocket-photo-ref';
+import { AreYouSureComponent } from '../../../shared/are-you-sure/are-you-sure.component';
 
 @Component({
   selector: 'fmr-rocket-show',
