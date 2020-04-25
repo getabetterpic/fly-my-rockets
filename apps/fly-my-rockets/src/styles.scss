@@ -48,13 +48,46 @@ $rockets-blue: (
   )
 );
 
+$atomic-tangerine: (
+  50 : #fff2ea,
+  100 : #ffdfca,
+  200 : #ffc9a7,
+  300 : #ffb384,
+  400 : #ffa369,
+  500 : #ff934f,
+  600 : #ff8b48,
+  700 : #ff803f,
+  800 : #ff7636,
+  900 : #ff6426,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffdfd4,
+  A700 : #ffccba,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
 
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $fly-my-rockets-primary: mat-palette($rockets-blue);
-$fly-my-rockets-accent: mat-palette($mat-pink, A200, A100, A400);
+$fly-my-rockets-accent: mat-palette($atomic-tangerine, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $fly-my-rockets-warn: mat-palette($mat-red);
@@ -71,3 +104,6 @@ $fly-my-rockets-theme: mat-dark-theme($fly-my-rockets-primary, $fly-my-rockets-a
 
 html, body { height: 100%; }
 body { margin: 0; font-family: "Work Sans", "Helvetica Neue", sans-serif; }
+
+@import 'styles/blank-state';
+@import 'styles/buttons';

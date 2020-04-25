@@ -81,6 +81,7 @@ export class EmailLoginComponent implements OnInit {
       }
       if (this.isSignup) {
         await this.afAuth.createUserWithEmailAndPassword(email, password);
+        this.router.navigate(['/rockets']);
       }
       if (this.isPasswordReset) {
         await this.afAuth.sendPasswordResetEmail(email);
