@@ -1,12 +1,21 @@
 <h1>Rockets</h1>
-<mat-nav-list>
-  <ng-container *ngFor="let rocket of rockets$ | async; last as isLast">
-    <mat-list-item [routerLink]="['/rockets', rocket.id]">
-      <img matListAvatar [src]="(rocketPhotoMap[rocket.id] | async) || 'assets/icons/icon-120.png'" [alt]="rocket.name">
-      <a matLine [routerLink]="['/rockets', rocket.id]">{{rocket.name}}</a>
-    </mat-list-item>
-  </ng-container>
-</mat-nav-list>
+<ng-container *ngIf="rockets$ | async as rockets">
+  <mat-nav-list *ngIf="rockets?.length > 0; else blankState">
+    <ng-container *ngFor="let rocket of rockets">
+      <mat-list-item [routerLink]="['/rockets', rocket.id]">
+        <img matListAvatar [src]="(rocketPhotoMap[rocket.id] | async) || 'assets/icons/icon-120.png'" [alt]="rocket.name">
+        <a matLine [routerLink]="['/rockets', rocket.id]">{{rocket.name}}</a>
+      </mat-list-item>
+    </ng-container>
+  </mat-nav-list>
+</ng-container>
+<ng-template #blankState>
+  <div class="blank-state">
+    <button mat-raised-button color="primary" (click)="openRocketDialog()">
+      Add New Rocket
+    </button>
+  </div>
+</ng-template>
 <button mat-fab color="primary" (click)="openRocketDialog()" class="fab-button">
   <mat-icon>add</mat-icon>
 </button>
