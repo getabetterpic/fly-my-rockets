@@ -1,0 +1,12 @@
+<mat-list-item>
+  <h3 matLine>{{flight.date | flightDate | date}}</h3>
+  <span matLine>{{(flight.motors || []).join(', ')}}</span>
+  <span matLine>{{flight.altitude | number}}</span>
+  <button mat-icon-button [matMenuTriggerFor]="flightActions">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #flightActions="matMenu">
+    <button mat-menu-item (click)="openFlightDialog()">Edit</button>
+    <button mat-menu-item (click)="removeFlight(flight)">Delete</button>
+  </mat-menu>
+</mat-list-item>

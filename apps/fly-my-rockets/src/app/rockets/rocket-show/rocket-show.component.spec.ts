@@ -36,15 +36,6 @@ describe('RocketShowComponent', () => {
     );
   });
 
-  describe('removeFlight', () => {
-    it('calls rocketService.removeFlight', () => {
-      component.removeFlight({});
-      expect(dialog.open).toHaveBeenCalled();
-      dialogAfterClosed.next(true);
-      expect(rocketService.removeFlight).toHaveBeenCalled();
-    });
-  });
-
   describe('confirmDelete', () => {
     it('opens the confirm dialog', fakeAsync(() => {
       component.confirmDelete();
