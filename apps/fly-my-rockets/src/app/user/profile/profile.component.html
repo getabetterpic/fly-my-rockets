@@ -1,0 +1,10 @@
+<mat-card *ngIf="user$ | async as user" class="profile-card">
+  <mat-card-title-group>
+    <mat-card-title *ngIf="user.displayName">{{user.displayName}}</mat-card-title>
+    <mat-card-subtitle *ngIf="user.email">{{user.email}}</mat-card-subtitle>
+    <img *ngIf="user.photoURL" [src]="user.photoURL" mat-card-sm-image>
+  </mat-card-title-group>
+  <mat-card-actions>
+    <button mat-button (click)="signOut()">Logout</button>
+  </mat-card-actions>
+</mat-card>

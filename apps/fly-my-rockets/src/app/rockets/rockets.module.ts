@@ -7,18 +7,23 @@ import { RocketListComponent } from './rocket-list/rocket-list.component';
 import { RocketDialogComponent } from './dialogs/rocket-dialog/rocket-dialog.component';
 import { RocketShowComponent } from './rocket-show/rocket-show.component';
 import { FlightDialogComponent } from './dialogs/flight-dialog/flight-dialog.component';
-import { FlightComponent } from './flight/flight.component';
 import { PipesModule } from './pipes/pipes.module';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
   declarations: [
     RocketListComponent,
     RocketDialogComponent,
     RocketShowComponent,
-    FlightDialogComponent,
-    FlightComponent
+    FlightDialogComponent
   ],
-  imports: [CommonModule, RocketsRoutingModule, SharedModule, PipesModule],
+  imports: [
+    CommonModule,
+    RocketsRoutingModule,
+    SharedModule,
+    PipesModule,
+    ComponentsModule
+  ],
   entryComponents: [RocketDialogComponent]
 })
 export class RocketsModule {}

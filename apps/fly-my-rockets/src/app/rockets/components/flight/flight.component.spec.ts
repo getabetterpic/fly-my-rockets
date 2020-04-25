@@ -1,7 +1,7 @@
 import { FlightComponent } from './flight.component';
 import { of, Subject } from 'rxjs';
-import { FlightDialogComponent } from '../dialogs/flight-dialog/flight-dialog.component';
-import { Flight } from '../rocket.model';
+import { FlightDialogComponent } from '../../dialogs/flight-dialog/flight-dialog.component';
+import { Flight } from '../../rocket.model';
 
 describe('FlightComponent', () => {
   let component: FlightComponent;

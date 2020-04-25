@@ -33,7 +33,7 @@ describe('ShellComponent', () => {
     it('navigates to login after signout', fakeAsync(() => {
       component.signOut();
       tick();
-      expect(router.navigate).toHaveBeenCalledWith(['/login']);
+      expect(router.navigate).toHaveBeenCalledWith(['/user/login']);
     }));
   });
 });
