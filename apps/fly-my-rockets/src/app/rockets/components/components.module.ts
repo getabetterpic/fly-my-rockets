@@ -5,10 +5,13 @@ import { PipesModule } from '../pipes/pipes.module';
 
 import { FlightComponent } from './flight/flight.component';
 import { RocketListComponent } from './rocket-list/rocket-list.component';
+import { RocketShowComponent } from './rocket-show/rocket-show.component';
+
+const components = [FlightComponent, RocketListComponent, RocketShowComponent];
 
 @NgModule({
-  declarations: [FlightComponent, RocketListComponent],
+  declarations: [...components],
   imports: [CommonModule, SharedModule, PipesModule],
-  exports: [FlightComponent, RocketListComponent]
+  exports: [...components]
 })
 export class ComponentsModule {}
