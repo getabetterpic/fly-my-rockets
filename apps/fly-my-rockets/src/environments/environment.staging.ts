@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: process.env.FIREBASE_STAGING_API_KEY,
+    apiKey: 'AIzaSyCeTtm6lS2V7CUgAEznap1v997NlB83MGU',
     authDomain: 'fly-my-rockets---staging.firebaseapp.com',
     databaseURL: 'https://fly-my-rockets---staging.firebaseio.com',
     projectId: 'fly-my-rockets---staging',
