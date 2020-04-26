@@ -1,6 +1,7 @@
 export enum ThumbnailSizes {
   Small = 'small',
-  Medium = 'medium'
+  Medium = 'medium',
+  Original = 'original'
 }
 
 /**
@@ -21,5 +22,10 @@ export function rocketPhotoRef(originalRef: string, size: ThumbnailSizes): strin
       return `${uid}/images/rockets/thumbnails/${file}_50x50.${extension}`;
     case ThumbnailSizes.Medium:
       return `${uid}/images/rockets/thumbnails/${file}_400x600.${extension}`;
+    case ThumbnailSizes.Original:
+      const thumbnailArr = file.split('_');
+      thumbnailArr.pop(); // remove last item
+      const originalFile = thumbnailArr.join('_'); // preserve any underscores in the file name
+      return `${uid}/images/rockets/${originalFile}.${extension}`;
   }
 }
