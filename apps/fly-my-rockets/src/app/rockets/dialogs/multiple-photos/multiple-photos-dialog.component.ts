@@ -10,10 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class MultiplePhotosDialogComponent {
   files = new FormControl('', Validators.required);
 
-  constructor(
-    private dialog: MatDialogRef<MultiplePhotosDialogComponent>
-  ) {
-  }
+  constructor(private dialog: MatDialogRef<MultiplePhotosDialogComponent>) {}
 
   uploadPhotos(): void {
     this.dialog.close(this.files.value.files);

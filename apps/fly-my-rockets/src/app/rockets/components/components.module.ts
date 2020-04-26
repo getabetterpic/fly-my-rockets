@@ -8,7 +8,12 @@ import { RocketListComponent } from './rocket-list/rocket-list.component';
 import { RocketShowComponent } from './rocket-show/rocket-show.component';
 import { PhotosComponent } from './photos/photos.component';
 
-const components = [FlightComponent, RocketListComponent, RocketShowComponent, PhotosComponent];
+const components = [
+  FlightComponent,
+  RocketListComponent,
+  RocketShowComponent,
+  PhotosComponent
+];
 
 @NgModule({
   declarations: [...components],

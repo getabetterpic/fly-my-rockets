@@ -12,7 +12,10 @@ export enum ThumbnailSizes {
  * @param originalRef
  * @param size
  */
-export function rocketPhotoRef(originalRef: string, size: ThumbnailSizes): string {
+export function rocketPhotoRef(
+  originalRef: string,
+  size: ThumbnailSizes
+): string {
   const refArr = originalRef.split('/');
   const uid = refArr.shift(); // first item
   const fileName = refArr.pop(); // last item
