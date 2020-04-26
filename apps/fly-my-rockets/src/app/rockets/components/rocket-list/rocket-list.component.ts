@@ -20,7 +20,7 @@ export class RocketListComponent {
   rockets$ = this.rocketService.getUserRockets().pipe(
     tap(rockets => {
       rockets.forEach(rocket => {
-        if (rocket.photos) {
+        if (rocket.photos && rocket.photos.length > 0) {
           const photoRef = rocketPhotoRef(
             rocket.photos[0],
             ThumbnailSizes.Small
