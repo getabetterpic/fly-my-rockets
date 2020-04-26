@@ -13,6 +13,7 @@ import { MultiplePhotosDialogComponent } from '../../dialogs/multiple-photos/mul
 import { MatDialog } from '@angular/material/dialog';
 import { PhotoUploadService } from '../../services/photo-upload/photo-upload.service';
 import { RocketService } from '../../services/rocket/rocket.service';
+import { PhotoDialogComponent } from '../../dialogs/photo-dialog/photo-dialog.component';
 import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
 
 @Component({
@@ -21,10 +22,11 @@ import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
   styleUrls: ['./photos.component.scss']
 })
 export class PhotosComponent {
-  photoUrls = [];
+  photoUrls: Array<{ ref: string; url: Observable<string> }> = [];
   uploading = [];
   processing = [];
   rocketId: string;
+  rocketName: string;
   rocket$: Observable<Rocket> = combineLatest([
     this.route.data,
     this.route.paramMap
@@ -34,9 +36,13 @@ export class PhotosComponent {
     }),
     map(([data]) => data.rocket),
     tap(rocket => {
+      this.rocketName = rocket.name;
       this.photoUrls = rocket.photos.map(photoRef => {
         const mediumRef = rocketPhotoRef(photoRef, ThumbnailSizes.Medium);
-        return this.storage.ref(mediumRef).getDownloadURL();
+        return {
+          ref: mediumRef,
+          url: this.storage.ref(mediumRef).getDownloadURL()
+        };
       });
     })
   );
@@ -63,6 +69,26 @@ export class PhotosComponent {
         );
         this.uploading = this.uploadingUploads(uploads);
         this.processing = this.processingUploads(uploads);
+      }
+    });
+  }
+
+  showPhoto(photo: { ref: string; url: Observable<string> }): void {
+    const dialogRef = this.dialog.open(PhotoDialogComponent, {
+      data: {
+        photo,
+        rocketName: this.rocketName
+      }
+    });
+    dialogRef.afterClosed().subscribe(results => {
+      if (results && results.delete) {
+        const originalRef = rocketPhotoRef(photo.ref, ThumbnailSizes.Original);
+        this.rocketService
+          .remotePhoto(this.rocketId, originalRef)
+          .subscribe(() => {
+            const idx = this.photoUrls.indexOf(photo);
+            this.photoUrls.splice(idx, 1);
+          });
       }
     });
   }
@@ -95,7 +121,10 @@ export class PhotosComponent {
         switchMap(metadata => {
           const ref = metadata.fullPath;
           const originalRef = rocketPhotoRef(ref, ThumbnailSizes.Original);
-          this.photoUrls.push(this.storage.ref(ref).getDownloadURL());
+          this.photoUrls.push({
+            ref,
+            url: this.storage.ref(ref).getDownloadURL()
+          });
           return this.rocketService.addPhoto(this.rocketId, originalRef);
         }),
         map(() => true),

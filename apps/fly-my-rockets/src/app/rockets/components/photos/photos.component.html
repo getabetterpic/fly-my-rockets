@@ -1,7 +1,12 @@
 <ng-container *ngIf="rocket$ | async as rocket; else loadingSpinner">
   <div class="grid--photos">
     <ng-container *ngFor="let photo of photoUrls; index as index">
-      <img *ngIf="photo | async as url" [src]="url" [alt]="'Photo ' + index + 1" class="grid--photo">
+      <img *ngIf="photo.url | async as url"
+           [src]="url"
+           [alt]="'Photo ' + index + 1"
+           class="grid--photo"
+           (click)="showPhoto(photo)"
+      >
     </ng-container>
     <ng-container *ngFor="let upload of uploading">
       <div *ngIf="(upload | async) < 100">
