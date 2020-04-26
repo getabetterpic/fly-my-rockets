@@ -1,0 +1,13 @@
+<mat-dialog-content>
+  <mat-form-field>
+    <ngx-mat-file-input multiple
+                        placeholder="Add Photos"
+                        [formControl]="files"
+                        accept=".jpg,.jpeg,.png,.gif"
+    ></ngx-mat-file-input>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="">Cancel</button>
+  <button mat-button [disabled]="files.invalid" (click)="uploadPhotos()">Upload</button>
+</mat-dialog-actions>
