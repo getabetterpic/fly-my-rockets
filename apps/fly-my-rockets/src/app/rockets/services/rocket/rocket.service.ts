@@ -36,6 +36,12 @@ export class RocketService {
     return from(this.db.collection('rockets').doc(rocketId).delete());
   }
 
+  addPhoto(rocketId: string, photoRef: string): Observable<any> {
+    return from(this.db.collection('rockets').doc(rocketId).update({
+      photos: FieldValue.arrayUnion(photoRef)
+    }))
+  }
+
   updateFlight(rocketId: string, oldFlight: Flight, updatedFlight: Flight): Observable<any> {
     const rocketDoc = this.db.firestore.collection('rockets').doc(rocketId);
     return from(this.db.firestore.runTransaction(transaction => {

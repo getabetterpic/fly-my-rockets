@@ -18,9 +18,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { ShellComponent } from './shell/shell.component';
 import { AreYouSureComponent } from './are-you-sure/are-you-sure.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const entryComponents = [AreYouSureComponent];
 
@@ -45,6 +47,8 @@ const modules = [
   MatNativeDateModule,
   MatProgressBarModule,
   MatDialogModule,
+  MatGridListModule,
+  MatProgressSpinnerModule,
   MaterialFileInputModule,
   FormsModule,
   ReactiveFormsModule
