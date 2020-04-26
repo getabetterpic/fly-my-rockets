@@ -12,10 +12,7 @@ import FieldValue = firebase.firestore.FieldValue;
   providedIn: 'root'
 })
 export class RocketService {
-  constructor(
-    private afAuth: AngularFireAuth,
-    private db: AngularFirestore
-  ) {}
+  constructor(private afAuth: AngularFireAuth, private db: AngularFirestore) {}
 
   createRocket(data: Rocket): Observable<Rocket> {
     return from(this.afAuth.currentUser).pipe(
@@ -23,76 +20,141 @@ export class RocketService {
         return this.db.collection('rockets').add({
           ...data,
           uid: user.uid
-        })
+        });
       })
-    )
+    );
   }
 
   updateRocket(rocketId: string, rocket: Rocket): Observable<any> {
-    return from(this.db.collection('rockets').doc(rocketId).update(rocket));
+    return from(
+      this.db
+        .collection('rockets')
+        .doc(rocketId)
+        .update(rocket)
+    );
   }
 
   deleteRocket(rocketId: string): Observable<any> {
-    return from(this.db.collection('rockets').doc(rocketId).delete());
+    return from(
+      this.db
+        .collection('rockets')
+        .doc(rocketId)
+        .delete()
+    );
   }
 
-  updateFlight(rocketId: string, oldFlight: Flight, updatedFlight: Flight): Observable<any> {
+  addPhoto(rocketId: string, photoRef: string): Observable<any> {
+    return from(
+      this.db
+        .collection('rockets')
+        .doc(rocketId)
+        .update({
+          photos: FieldValue.arrayUnion(photoRef)
+        })
+    );
+  }
+
+  remotePhoto(rocketId: string, photoRef: string): Observable<any> {
+    return from(
+      this.db
+        .collection('rockets')
+        .doc(rocketId)
+        .update({
+          photos: FieldValue.arrayRemove(photoRef)
+        })
+    );
+  }
+
+  updateFlight(
+    rocketId: string,
+    oldFlight: Flight,
+    updatedFlight: Flight
+  ): Observable<any> {
     const rocketDoc = this.db.firestore.collection('rockets').doc(rocketId);
-    return from(this.db.firestore.runTransaction(transaction => {
-      return transaction.get(rocketDoc).then(doc => {
-        transaction.update(rocketDoc, {
-          flights: FieldValue.arrayRemove(oldFlight)
+    return from(
+      this.db.firestore.runTransaction(transaction => {
+        return transaction.get(rocketDoc).then(doc => {
+          transaction.update(rocketDoc, {
+            flights: FieldValue.arrayRemove(oldFlight)
+          });
+          transaction.update(rocketDoc, {
+            flights: FieldValue.arrayUnion(updatedFlight)
+          });
         });
-        transaction.update(rocketDoc, {
-          flights: FieldValue.arrayUnion(updatedFlight)
-        });
-      });
-    }));
+      })
+    );
   }
 
   removeFlight(rocketId: string, flight: Flight): Observable<any> {
     if (typeof flight === 'string') {
-      return from(this.db.collection('rockets').doc(rocketId).update({
-        flights: FieldValue.arrayRemove(flight)
-      }));
+      return from(
+        this.db
+          .collection('rockets')
+          .doc(rocketId)
+          .update({
+            flights: FieldValue.arrayRemove(flight)
+          })
+      );
     } else if (flight.id) {
-      return from(this.db.collection('rockets').doc(rocketId).update({
-        flights: FieldValue.arrayRemove(`/flights/${flight.id}`)
-      }));
+      return from(
+        this.db
+          .collection('rockets')
+          .doc(rocketId)
+          .update({
+            flights: FieldValue.arrayRemove(`/flights/${flight.id}`)
+          })
+      );
     }
-    return from(this.db.collection('rockets').doc(rocketId).update({
-      flights: FieldValue.arrayRemove(flight)
-    }))
+    return from(
+      this.db
+        .collection('rockets')
+        .doc(rocketId)
+        .update({
+          flights: FieldValue.arrayRemove(flight)
+        })
+    );
   }
 
   getUserRockets() {
     return this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
-          return this.db.collection('rockets', ref => {
-            return ref.where('uid', '==', user.uid).orderBy('name');
-          }).valueChanges({ idField: 'id' });
+          return this.db
+            .collection('rockets', ref => {
+              return ref.where('uid', '==', user.uid).orderBy('name');
+            })
+            .valueChanges({ idField: 'id' });
         } else {
           return [];
         }
       })
-    )
+    );
   }
 
   getRocket(rocketId: string): Observable<Rocket> {
-    return this.db.collection('rockets').doc(rocketId).valueChanges();
+    return this.db
+      .collection('rockets')
+      .doc(rocketId)
+      .valueChanges();
   }
 
   getFlights(flightIds: string[]): Observable<Flight[]> {
     flightIds = flightIds.map(fid => fid.split('/').pop());
-    return this.db.collection<Flight>('flights', ref => {
-      return ref.where(FieldPath.documentId(), 'in', flightIds);
-    }).valueChanges({ idField: 'id' });
+    return this.db
+      .collection<Flight>('flights', ref => {
+        return ref.where(FieldPath.documentId(), 'in', flightIds);
+      })
+      .valueChanges({ idField: 'id' });
   }
 
   createFlight(rocketId: string, flight: Flight): Observable<any> {
-    return from(this.db.collection('rockets').doc(rocketId).update({
-      flights: FieldValue.arrayUnion(flight)
-    }));
+    return from(
+      this.db
+        .collection('rockets')
+        .doc(rocketId)
+        .update({
+          flights: FieldValue.arrayUnion(flight)
+        })
+    );
   }
 }

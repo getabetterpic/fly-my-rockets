@@ -1,0 +1,26 @@
+.grid--photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 6px;
+  grid-row-gap: 6px;
+
+  .grid--photo {
+    height: 200px;
+    width: 200px;
+    justify-self: center;
+    object-fit: cover;
+  }
+}
+
+@media screen and (max-width: 929px) {
+  .grid--photos {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 627px) {
+  .grid--photos {
+    grid-template-columns: 1fr;
+  }
+}
+

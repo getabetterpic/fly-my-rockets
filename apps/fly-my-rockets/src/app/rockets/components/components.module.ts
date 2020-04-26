@@ -6,8 +6,9 @@ import { PipesModule } from '../pipes/pipes.module';
 import { FlightComponent } from './flight/flight.component';
 import { RocketListComponent } from './rocket-list/rocket-list.component';
 import { RocketShowComponent } from './rocket-show/rocket-show.component';
+import { PhotosComponent } from './photos/photos.component';
 
-const components = [FlightComponent, RocketListComponent, RocketShowComponent];
+const components = [FlightComponent, RocketListComponent, RocketShowComponent, PhotosComponent];
 
 @NgModule({
   declarations: [...components],

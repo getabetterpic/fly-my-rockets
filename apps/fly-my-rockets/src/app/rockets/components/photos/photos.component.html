@@ -1,0 +1,35 @@
+<ng-container *ngIf="rocket$ | async as rocket; else loadingSpinner">
+  <div class="grid--photos">
+    <ng-container *ngFor="let photo of photoUrls; index as index">
+      <img *ngIf="photo.url | async as url"
+           [src]="url"
+           [alt]="'Photo ' + index + 1"
+           class="grid--photo"
+           (click)="showPhoto(photo)"
+      >
+    </ng-container>
+    <ng-container *ngFor="let upload of uploading">
+      <div *ngIf="(upload | async) < 100">
+        Uploading
+        <mat-progress-bar mode="determinate" [value]="upload | async"></mat-progress-bar>
+      </div>
+    </ng-container>
+    <ng-container *ngFor="let process of processing">
+      <div *ngIf="!(process | async)">
+        Processing
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+    </ng-container>
+  </div>
+  <ng-template #blankState>
+    <button mat-raised-button color="primary">
+      Add New Photos
+    </button>
+  </ng-template>
+</ng-container>
+<ng-template #loadingSpinner>
+  <mat-spinner></mat-spinner>
+</ng-template>
+<button mat-fab class="fab-button" (click)="addPhotos()">
+  <mat-icon>add</mat-icon>
+</button>

@@ -12,15 +12,18 @@
       <button mat-button (click)="openRocketDialog(rocket)">
         Edit
       </button>
-      <button mat-button (click)="removePhoto()" *ngIf="rocket.photos && rocket.photos.length > 0">
-        Remove Photo
-      </button>
+      <a mat-button [routerLink]="['/rockets', rocketId, 'photos']">
+        More Photos
+      </a>
       <button mat-icon-button [matMenuTriggerFor]="rocketMore" class="float-right">
         <mat-icon>more_vert</mat-icon>
       </button>
     </mat-card-actions>
   </mat-card>
   <mat-menu #rocketMore="matMenu">
+    <button mat-menu-item (click)="removePhoto()" *ngIf="rocket.photos && rocket.photos.length > 0">
+      Remove Photo
+    </button>
     <button mat-menu-item (click)="confirmDelete()">Delete Rocket</button>
   </mat-menu>
 
