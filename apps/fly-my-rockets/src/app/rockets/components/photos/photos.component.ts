@@ -73,6 +73,16 @@ export class PhotosComponent {
     });
   }
 
+  deletePhoto(
+    photo: { ref: string; url: Observable<string> },
+    index: number
+  ): void {
+    const originalRef = rocketPhotoRef(photo.ref, ThumbnailSizes.Original);
+    this.rocketService.remotePhoto(this.rocketId, originalRef).subscribe(() => {
+      this.photoUrls.splice(index, 1);
+    });
+  }
+
   showPhoto(photo: { ref: string; url: Observable<string> }): void {
     const dialogRef = this.dialog.open(PhotoDialogComponent, {
       data: {
