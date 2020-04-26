@@ -1,12 +1,18 @@
 <ng-container *ngIf="rocket$ | async as rocket; else loadingSpinner">
   <div class="grid--photos">
     <ng-container *ngFor="let photo of photoUrls; index as index">
-      <img *ngIf="photo.url | async as url"
-           [src]="url"
-           [alt]="'Photo ' + index + 1"
-           class="grid--photo"
-           (click)="showPhoto(photo)"
-      >
+      <mat-card class="grid--photo" *ngIf="photo.url | async as url">
+        <img mat-card-image
+             [src]="url"
+             [alt]="'Photo ' + index + 1"
+        >
+        <mat-menu #photoOptions="matMenu">
+          <button mat-menu-item (click)="deletePhoto(photo, index)">Delete</button>
+        </mat-menu>
+        <mat-card-actions>
+          <button mat-button [matMenuTriggerFor]="photoOptions">Edit</button>
+        </mat-card-actions>
+      </mat-card>
     </ng-container>
     <ng-container *ngFor="let upload of uploading">
       <div *ngIf="(upload | async) < 100">
