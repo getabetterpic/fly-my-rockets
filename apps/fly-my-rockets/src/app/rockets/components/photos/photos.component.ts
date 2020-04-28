@@ -15,6 +15,7 @@ import { PhotoUploadService } from '../../services/photo-upload/photo-upload.ser
 import { RocketService } from '../../services/rocket/rocket.service';
 import { PhotoDialogComponent } from '../../dialogs/photo-dialog/photo-dialog.component';
 import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'fmr-photos',
@@ -53,7 +54,8 @@ export class PhotosComponent {
     private storage: AngularFireStorage,
     private dialog: MatDialog,
     private photoUpload: PhotoUploadService,
-    private rocketService: RocketService
+    private rocketService: RocketService,
+    public afAuth: AngularFireAuth
   ) {}
 
   addPhotos(): void {

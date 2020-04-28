@@ -8,6 +8,7 @@ describe('PhotosComponent', () => {
   let dialog;
   let photoUpload;
   let rocketService;
+  let afAuth;
 
   beforeEach(() => {
     route = {};
@@ -16,13 +17,15 @@ describe('PhotosComponent', () => {
     dialog = {};
     photoUpload = {};
     rocketService = {};
+    afAuth = {};
     component = new PhotosComponent(
       route,
       breakpoints,
       storage,
       dialog,
       photoUpload,
-      rocketService
+      rocketService,
+      afAuth
     );
   });
 

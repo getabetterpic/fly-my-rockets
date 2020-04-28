@@ -9,7 +9,7 @@
         <mat-menu #photoOptions="matMenu">
           <button mat-menu-item (click)="deletePhoto(photo, index)">Delete</button>
         </mat-menu>
-        <mat-card-actions>
+        <mat-card-actions *ngIf="(afAuth.user | async)?.uid === rocket.uid">
           <button mat-button [matMenuTriggerFor]="photoOptions">Edit</button>
         </mat-card-actions>
       </mat-card>
@@ -32,10 +32,10 @@
       Add New Photos
     </button>
   </ng-template>
+  <button mat-fab class="fab-button" (click)="addPhotos()" *ngIf="(afAuth.user | async)?.uid === rocket.uid">
+    <mat-icon>add</mat-icon>
+  </button>
 </ng-container>
 <ng-template #loadingSpinner>
   <mat-spinner></mat-spinner>
 </ng-template>
-<button mat-fab class="fab-button" (click)="addPhotos()">
-  <mat-icon>add</mat-icon>
-</button>

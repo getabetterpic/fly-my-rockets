@@ -1,14 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './home-page/home-page.component';
-import {
-  AngularFireAuthGuard,
-  redirectLoggedInTo,
-  redirectUnauthorizedTo
-} from '@angular/fire/auth-guard';
-
-const redirectUnauthorizedToLogin = () =>
-  redirectUnauthorizedTo(['/user/login']);
 
 const routes: Routes = [
   {
@@ -22,9 +14,7 @@ const routes: Routes = [
   {
     path: 'rockets',
     loadChildren: () =>
-      import('./rockets/rockets.module').then(m => m.RocketsModule),
-    canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin }
+      import('./rockets/rockets.module').then(m => m.RocketsModule)
   },
   {
     path: 'login',
