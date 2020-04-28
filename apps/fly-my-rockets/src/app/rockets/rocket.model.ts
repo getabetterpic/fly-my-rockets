@@ -4,6 +4,7 @@ export interface Rocket {
   manufacturer?: string;
   flights?: Flight[];
   photos?: string[];
+  uid?: string;
 }
 
 export interface Flight {

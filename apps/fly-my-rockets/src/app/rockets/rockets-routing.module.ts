@@ -4,6 +4,13 @@ import { RocketListComponent } from './components/rocket-list/rocket-list.compon
 import { RocketShowComponent } from './components/rocket-show/rocket-show.component';
 import { PhotosComponent } from './components/photos/photos.component';
 import { RocketResolverService } from './services/rocket-resolver.service';
+import {
+  AngularFireAuthGuard,
+  redirectUnauthorizedTo
+} from '@angular/fire/auth-guard';
+
+const redirectUnauthorizedToLogin = () =>
+  redirectUnauthorizedTo(['/user/login']);
 
 const routes: Routes = [
   {
@@ -12,7 +19,9 @@ const routes: Routes = [
   },
   {
     path: ':rocketId',
-    component: RocketShowComponent
+    component: RocketShowComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
   {
     path: ':rocketId/photos',
