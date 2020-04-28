@@ -15,7 +15,9 @@ const redirectUnauthorizedToLogin = () =>
 const routes: Routes = [
   {
     path: '',
-    component: RocketListComponent
+    component: RocketListComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
   {
     path: ':rocketId',
