@@ -1,4 +1,5 @@
 import { PhotosComponent } from './photos.component';
+import { of, Subject } from 'rxjs';
 
 describe('PhotosComponent', () => {
   let component: PhotosComponent;
@@ -12,7 +13,7 @@ describe('PhotosComponent', () => {
 
   beforeEach(() => {
     route = {};
-    breakpoints = {};
+    breakpoints = { observe: jest.fn().mockReturnValue(of({})) };
     storage = {};
     dialog = {};
     photoUpload = {};

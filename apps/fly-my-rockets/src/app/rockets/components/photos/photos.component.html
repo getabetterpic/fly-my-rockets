@@ -2,18 +2,29 @@
   <h1>{{rocket.name}}</h1>
   <div class="grid--photos">
     <ng-container *ngFor="let photo of photoUrls; index as index">
-      <mat-card class="grid--photo" *ngIf="photo.url | async as url">
-        <img mat-card-image
-             [src]="url"
-             [alt]="'Photo ' + index + 1"
-        >
-        <mat-menu #photoOptions="matMenu">
-          <button mat-menu-item (click)="deletePhoto(photo, index)">Delete</button>
-        </mat-menu>
-        <mat-card-actions *ngIf="(afAuth.user | async)?.uid === rocket.uid">
-          <button mat-button [matMenuTriggerFor]="photoOptions">Edit</button>
-        </mat-card-actions>
-      </mat-card>
+      <!-- Handset -->
+      <img *ngIf="(handset$ | async) && photo.imageUrl | async as imageUrl"
+           [src]="imageUrl"
+           class="grid--photo" [alt]="'Photo ' + (index + 1)">
+
+      <!-- Not handset -->
+      <div class="grid--photo"
+           *ngIf="!(handset$ | async)"
+           [ngStyle]="{
+             'background-image': photo.backgroundUrl | async,
+             'opacity': !!(photo.backgroundUrl | async) ? '1' : '0.1'
+           }"
+
+      >
+        <div class="grid--actions" *ngIf="(afAuth.user | async)?.uid === rocket.uid">
+          <button mat-button [matMenuTriggerFor]="photoOptions">
+            Edit
+          </button>
+          <mat-menu #photoOptions="matMenu">
+            <button mat-menu-item (click)="deletePhoto(photo, index)">Delete</button>
+          </mat-menu>
+        </div>
+      </div>
     </ng-container>
     <ng-container *ngFor="let upload of uploading">
       <div *ngIf="(upload | async) < 100">

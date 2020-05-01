@@ -1,7 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { BreakpointObserver } from '@angular/cdk/layout';
+import {
+  filter,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+  tap
+} from 'rxjs/operators';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { combineLatest, Observable } from 'rxjs';
 import { Rocket } from '../../rocket.model';
 import {
@@ -17,13 +24,19 @@ import { PhotoDialogComponent } from '../../dialogs/photo-dialog/photo-dialog.co
 import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
 import { AngularFireAuth } from '@angular/fire/auth';
 
+interface Photo {
+  ref: string;
+  backgroundUrl: Observable<string>;
+  imageUrl: Observable<string>;
+}
+
 @Component({
   selector: 'fmr-photos',
   templateUrl: './photos.component.html',
   styleUrls: ['./photos.component.scss']
 })
 export class PhotosComponent {
-  photoUrls: Array<{ ref: string; url: Observable<string> }> = [];
+  photoUrls: Photo[] = [];
   uploading = [];
   processing = [];
   rocketId: string;
@@ -40,13 +53,21 @@ export class PhotosComponent {
       this.rocketName = rocket.name;
       this.photoUrls = rocket.photos.map(photoRef => {
         const mediumRef = rocketPhotoRef(photoRef, ThumbnailSizes.Medium);
+        const downloadUrl$ = this.storage
+          .ref(mediumRef)
+          .getDownloadURL()
+          .pipe(shareReplay(1));
         return {
           ref: mediumRef,
-          url: this.storage.ref(mediumRef).getDownloadURL()
+          backgroundUrl: downloadUrl$.pipe(map(url => `url(${url})`)),
+          imageUrl: downloadUrl$
         };
       });
     })
   );
+  handset$ = this.breakpoints
+    .observe([Breakpoints.Handset])
+    .pipe(map(result => result.matches));
 
   constructor(
     private route: ActivatedRoute,
@@ -75,17 +96,14 @@ export class PhotosComponent {
     });
   }
 
-  deletePhoto(
-    photo: { ref: string; url: Observable<string> },
-    index: number
-  ): void {
+  deletePhoto(photo: Photo, index: number): void {
     const originalRef = rocketPhotoRef(photo.ref, ThumbnailSizes.Original);
     this.rocketService.remotePhoto(this.rocketId, originalRef).subscribe(() => {
       this.photoUrls.splice(index, 1);
     });
   }
 
-  showPhoto(photo: { ref: string; url: Observable<string> }): void {
+  showPhoto(photo: Photo): void {
     const dialogRef = this.dialog.open(PhotoDialogComponent, {
       data: {
         photo,
@@ -133,9 +151,14 @@ export class PhotosComponent {
         switchMap(metadata => {
           const ref = metadata.fullPath;
           const originalRef = rocketPhotoRef(ref, ThumbnailSizes.Original);
+          const downloadUrl$ = this.storage
+            .ref(ref)
+            .getDownloadURL()
+            .pipe(shareReplay(1));
           this.photoUrls.push({
             ref,
-            url: this.storage.ref(ref).getDownloadURL()
+            backgroundUrl: downloadUrl$.pipe(map(url => `url(${url})`)),
+            imageUrl: downloadUrl$
           });
           return this.rocketService.addPhoto(this.rocketId, originalRef);
         }),
