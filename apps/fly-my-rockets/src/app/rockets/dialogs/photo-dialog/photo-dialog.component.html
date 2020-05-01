@@ -1,4 +1,11 @@
-<mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="">Cancel</button>
-  <button mat-button color="warn" [mat-dialog-close]="{ delete: true }">Delete Photo</button>
+<div class="dialog--close">
+  <button mat-icon-button [mat-dialog-close]="">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <img [src]="data.photo.imageUrl | async" [alt]="data.rocketName">
+</mat-dialog-content>
+<mat-dialog-actions align="end" *ngIf="afAuth.user | async">
+  <button mat-button color="warn" [mat-dialog-close]="{ delete: true }">Delete</button>
 </mat-dialog-actions>
