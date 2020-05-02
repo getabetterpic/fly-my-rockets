@@ -51,7 +51,7 @@ export class PhotosComponent {
     map(([data]) => data.rocket),
     tap(rocket => {
       this.rocketName = rocket.name;
-      this.photoUrls = rocket.photos.map(photoRef => {
+      this.photoUrls = (rocket.photos || []).map(photoRef => {
         const mediumRef = rocketPhotoRef(photoRef, ThumbnailSizes.Medium);
         const downloadUrl$ = this.storage
           .ref(mediumRef)
